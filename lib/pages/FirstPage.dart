@@ -38,20 +38,25 @@ class FirstPage extends StatelessWidget {
               ),
 
 
-              Container(
-                width: 60, // Adjust width as needed
-                height: 60, // Adjust height as needed
-                // padding: const EdgeInsets.only(bottom: 20),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromRGBO(44,176,145,1.0), // Adjust color as needed
-                ),
-                child: const Icon(
-                  Icons.navigate_next_rounded, // Specify the icon you want
-                  color: Colors.black, // Adjust icon color as needed
-                  size: 50, // Adjust icon size as needed
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/beforeLogin');
+                },
+                child: Container(
+                  width: 60, // Adjust width as needed
+                  height: 60, // Adjust height as needed
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromRGBO(44, 176, 145, 1.0), // Adjust color as needed
+                  ),
+                  child: const Icon(
+                    Icons.navigate_next_rounded, // Specify the icon you want
+                    color: Colors.black, // Adjust icon color as needed
+                    size: 50, // Adjust icon size as needed
+                  ),
                 ),
               )
+
             ],
           )
 
