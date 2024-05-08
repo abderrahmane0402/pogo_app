@@ -13,7 +13,7 @@ class SecondPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-        title: Image.asset('assets/images/pogo.png',width: 120,height: 60,),
+        title: Image.asset('assets/images/pogo.png',width: 120,height: 50,),
       ),
       body:  Center(
         child: Column(
@@ -23,21 +23,21 @@ class SecondPage extends StatelessWidget {
               'Bienvenue',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 30,
+                fontSize: 25,
               ),),
             const SizedBox(height: 50),
             const Text(
               textAlign: TextAlign.center,
               'Ravi de vous revoir !',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 17,
                 height: 1.5,
               ),),
             const Text(
               textAlign: TextAlign.center,
               'Connectez-vous pour continuer.',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 17,
                 height: 1.5,
               ),),
 
@@ -46,7 +46,7 @@ class SecondPage extends StatelessWidget {
               padding:  const EdgeInsets.symmetric(horizontal: 40) ,
               child: Image.asset('assets/images/img1.png',width: 469,height: 373),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
