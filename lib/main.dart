@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
         '/beforeLogin': (context) => const SecondPage(),
         '/login': (context) =>  const Login(),
         '/register': (context) => const Register(),
-
       },
 
 
