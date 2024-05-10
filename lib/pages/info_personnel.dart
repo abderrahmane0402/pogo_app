@@ -116,17 +116,25 @@ class _InfoPersonnelState extends State<InfoPersonnel> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledButton(
-                    onPressed: () {},
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Color.fromRGBO(5, 12, 79, 1))),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Perform login/authentication logic here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // Background color
+                      // Button padding
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: const BorderSide(
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
                     child: const Text(
-                      "Réinitialiser",
+                      'Réinitialiser',
                       style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                          color: Color.fromRGBO(5, 12, 79, 1.0)), // Text color
                     ),
                   ),
                   const SizedBox(
