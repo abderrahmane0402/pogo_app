@@ -6,13 +6,14 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.only(top: 10.0,left: 3.0, right: 3.0), // Adjust the value as needed
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: 10.0, left: 3.0, right: 3.0), // Adjust the value as needed
       child: Column(
         mainAxisAlignment: MainAxisAlignment
             .spaceBetween, // Align children to the top of the column
         children: [
-           SizedBox(
+          SizedBox(
             height: 230,
             width: double.infinity,
             child: Container(
@@ -21,14 +22,15 @@ class Home extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               alignment: Alignment.topCenter, // Align the child to the top
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:[
+                children: [
                   const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding:  EdgeInsets.only(left: 10.0), // Add padding to the top
+                        padding: EdgeInsets.only(
+                            left: 10.0), // Add padding to the top
                         child: SizedBox(
                           width: 150,
                           child: Text(
@@ -41,35 +43,36 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(left: 10.0),
-                      child: SizedBox(
-                        width: 150, // Set your desired width here
-                        child: Divider(
-                          height: 20, // Set your desired height for the line
-                          thickness: 2, // Set your desired thickness for the line
-                          color: Colors.white, // Set your desired color for the line
-                        ),
-                      ),),
-                      Padding(
-                        padding:  EdgeInsets.only(left: 10.0),
-                      child: SizedBox(
-                        width: 150, // Set your desired width here
-                        child: Text(
-                          'Profitez de transactions sûres avec notre application mobile',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w100,
-                            fontSize: 12
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: SizedBox(
+                          width: 150, // Set your desired width here
+                          child: Divider(
+                            height: 20, // Set your desired height for the line
+                            thickness:
+                                2, // Set your desired thickness for the line
+                            color: Colors
+                                .white, // Set your desired color for the line
                           ),
                         ),
-                      ),),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: SizedBox(
+                          width: 150, // Set your desired width here
+                          child: Text(
+                            'Profitez de transactions sûres avec notre application mobile',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w100,
+                                fontSize: 12),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.only(left: 18.0),
                     child: Image.asset('assets/images/home.png', width: 165),
-
                   ),
                 ],
               ),
