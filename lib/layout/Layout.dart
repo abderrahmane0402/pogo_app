@@ -5,8 +5,6 @@ import 'package:example_app/pages/login_page.dart';
 import 'package:example_app/pages/paiement.dart';
 import 'package:example_app/pages/profile_page.dart';
 import 'package:example_app/pages/qr_code.dart';
-import 'package:example_app/pages/register_page.dart';
-import 'package:example_app/pages/second_page.dart';
 import 'package:flutter/material.dart';
 
 // Define the main function, which is the entry point of the Dart application
@@ -43,6 +41,7 @@ class _LayoutState extends State<Layout> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: {
         '/infoPersonnels': (context) => const InfoPersonnel(),
         "/beforeLogin": (context) => const Login()
