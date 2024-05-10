@@ -1,3 +1,5 @@
+import 'package:example_app/pages/info_personnel.dart';
+import 'package:example_app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/FirstPage.dart';
 import 'pages/second_page.dart';
@@ -15,14 +17,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
       routes: {
+        '/profile': (context) => const Profile(),
         '/': (context) => const FirstPage(),
         '/beforeLogin': (context) => const SecondPage(),
-        '/login': (context) =>  const Login(),
+        '/login': (context) => const Login(),
         '/register': (context) => const Register(),
+        '/infoPersonnels': (context) => const InfoPersonnel()
       },
-
-
     );
   }
 }
