@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align children to the top of the column
         children: [
            SizedBox(
-            height: 230,
+            height: 200,
             width: double.infinity,
             child: Container(
               decoration: BoxDecoration(
