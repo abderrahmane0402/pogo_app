@@ -7,7 +7,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: const EdgeInsets.only(top: 10.0), // Adjust the value as needed
+      padding: const EdgeInsets.only(top: 10.0,left: 3.0, right: 3.0), // Adjust the value as needed
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align children to the top of the column
         children: [
@@ -27,7 +27,7 @@ class Home extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding:  EdgeInsets.only(left: 5.0), // Add padding to the top
+                        padding:  EdgeInsets.only(left: 10.0), // Add padding to the top
                         child: SizedBox(
                           width: 150,
                           child: Text(
@@ -40,7 +40,7 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(left: 5.0),
+                        padding:  EdgeInsets.only(left: 10.0),
                       child: SizedBox(
                         width: 150, // Set your desired width here
                         child: Divider(
@@ -50,7 +50,7 @@ class Home extends StatelessWidget {
                         ),
                       ),),
                       Padding(
-                        padding:  EdgeInsets.only(left: 5.0),
+                        padding:  EdgeInsets.only(left: 10.0),
                       child: SizedBox(
                         width: 150, // Set your desired width here
                         child: Text(
@@ -66,8 +66,8 @@ class Home extends StatelessWidget {
                   ),
 
                    Padding(
-                    padding: const EdgeInsets.only(left: 30.0),
-                    child: Image.asset('assets/images/home.png', width: 170),
+                    padding: const EdgeInsets.only(left: 18.0),
+                    child: Image.asset('assets/images/home.png', width: 165),
 
                   ),
                 ],
