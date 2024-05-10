@@ -1,4 +1,4 @@
-import 'package:example_app/pages/Layout.dart';
+import 'package:example_app/layout/Layout.dart';
 import 'package:example_app/pages/info_personnel.dart';
 import 'package:example_app/pages/profile_page.dart';
 import 'package:flutter/material.dart';

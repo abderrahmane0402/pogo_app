@@ -32,9 +32,10 @@ class _ProfileState extends State<Profile> {
             child: SizedBox(
               width: double.infinity,
               child: Card(
+                elevation: 0,
                 clipBehavior: Clip.antiAlias,
                 margin: const EdgeInsets.all(0),
-                color: const Color.fromRGBO(63, 207, 173, 0.61),
+                color: const Color.fromRGBO(63, 207, 173, 1),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),

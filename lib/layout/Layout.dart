@@ -55,57 +55,49 @@ class _LayoutState extends State<Layout> {
           title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
         ),
         body: Center(child: _pages.elementAt(_selectedIndex)),
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 10,
+          type: BottomNavigationBarType.shifting,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: const Color.fromRGBO(5, 12, 79, 1.0),
+          unselectedLabelStyle:
+              const TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)),
+          backgroundColor: const Color.fromRGBO(
+              44, 176, 145, 1.0), // Background color of the BottomNavigationBar
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: 'HOME',
+              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
             ),
-          ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.payments_outlined,
+              ),
+              label: 'Paiement',
+              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
             ),
-            child: BottomNavigationBar(
-              selectedItemColor: Colors.white,
-              unselectedItemColor: const Color.fromRGBO(5, 12, 79, 1.0),
-              unselectedLabelStyle:
-                  const TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)),
-              backgroundColor: const Color.fromRGBO(44, 176, 145,
-                  1.0), // Background color of the BottomNavigationBar
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                  ),
-                  label: 'HOME',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.money_outlined,
-                  ),
-                  label: 'Paiement',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.qr_code_2,
-                  ),
-                  label: 'QR code',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person,
-                  ),
-                  label: 'Profile',
-                ),
-              ],
-              iconSize: 30,
-              selectedIconTheme: const IconThemeData(color: Colors.white),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.qr_code_2,
+              ),
+              label: 'QR code',
+              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
             ),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              label: 'Profile',
+              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
+            ),
+          ],
+          iconSize: 30,
+          selectedIconTheme: const IconThemeData(color: Colors.white),
         ),
       ),
     );
