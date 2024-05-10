@@ -11,9 +11,9 @@ class Home extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align children to the top of the column
         children: [
-          SizedBox(
+           SizedBox(
             height: 230,
-            width: 350,
+            width: double.infinity,
             child: Container(
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(5, 12, 79, 1.0),
@@ -67,8 +67,7 @@ class Home extends StatelessWidget {
 
                    Padding(
                     padding: const EdgeInsets.only(left: 30.0),
-                    // Set your desired height here
-                      child: Image.asset('assets/images/home.png', width: 170),
+                    child: Image.asset('assets/images/home.png', width: 170),
 
                   ),
                 ],
