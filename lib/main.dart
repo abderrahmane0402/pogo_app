@@ -1,5 +1,4 @@
-import 'package:example_app/pages/info_personnel.dart';
-import 'package:example_app/pages/profile_page.dart';
+
 import 'package:flutter/material.dart';
 import 'pages/FirstPage.dart';
 import 'pages/second_page.dart';
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -31,3 +30,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
