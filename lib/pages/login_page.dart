@@ -58,7 +58,8 @@ class _LoginState extends State<Login> {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     filled: true,
                     fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
                     labelText: 'Enter votre email',
@@ -71,7 +72,8 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.all(8), // Adjust padding as needed
                       child: Icon(
                         Icons.email, // Icon for email input
-                        color: Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
+                        color:
+                            Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
                         size: 25, // Size of the icon
                       ),
                     ),
@@ -86,7 +88,8 @@ class _LoginState extends State<Login> {
                   obscureText: true,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     filled: true,
                     fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
                     labelText: 'Enter votre password',
@@ -99,7 +102,8 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.all(8), // Adjust padding as needed
                       child: Icon(
                         Icons.remove_red_eye, // Icon for email input
-                        color: Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
+                        color:
+                            Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
                         size: 25, // Size of the icon
                       ),
                     ),
@@ -107,23 +111,25 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(height: 50),
-          ElevatedButton(
-            onPressed: () {
-              // Perform login/authentication logic here
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0), // Background color
-              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15), // Button padding
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Button border radius
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/Home");
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      const Color.fromRGBO(5, 12, 79, 1.0), // Background color
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 60, vertical: 15), // Button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(30), // Button border radius
+                  ),
+                ),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white), // Text color
+                ),
               ),
-            ),
-            child: const Text(
-              'Login',
-              style: TextStyle(color: Colors.white), // Text color
-            ),
-          ),
-
             ],
           ),
         ),

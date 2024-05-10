@@ -1,0 +1,113 @@
+// Importing necessary libraries
+import 'package:example_app/pages/home.dart';
+import 'package:example_app/pages/info_personnel.dart';
+import 'package:example_app/pages/login_page.dart';
+import 'package:example_app/pages/paiement.dart';
+import 'package:example_app/pages/profile_page.dart';
+import 'package:example_app/pages/qr_code.dart';
+import 'package:example_app/pages/register_page.dart';
+import 'package:example_app/pages/second_page.dart';
+import 'package:flutter/material.dart';
+
+// Define the main function, which is the entry point of the Dart application
+void main() {
+  // Call the runApp function to start the Flutter application
+  runApp(const Layout());
+}
+
+class Layout extends StatefulWidget {
+  const Layout({super.key});
+
+  @override
+  State<Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<Layout> {
+  int _selectedIndex = 0;
+
+  // Define your pages here
+  final List<Widget> _pages = [
+    const Home(),
+    const Paiement(),
+    const QR_Code(),
+    const Profile()
+  ];
+
+  // Function to handle item selection
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      routes: {
+        '/infoPersonnels': (context) => const InfoPersonnel(),
+        "/beforeLogin": (context) => const Login()
+      },
+      home: Scaffold(
+        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+          title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+        ),
+        body: Center(child: _pages.elementAt(_selectedIndex)),
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+            child: BottomNavigationBar(
+              selectedItemColor: Colors.white,
+              unselectedItemColor: const Color.fromRGBO(5, 12, 79, 1.0),
+              unselectedLabelStyle:
+                  const TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)),
+              backgroundColor: const Color.fromRGBO(44, 176, 145,
+                  1.0), // Background color of the BottomNavigationBar
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                  ),
+                  label: 'HOME',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.money_outlined,
+                  ),
+                  label: 'Paiement',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.qr_code_2,
+                  ),
+                  label: 'QR code',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.person,
+                  ),
+                  label: 'Profile',
+                ),
+              ],
+              iconSize: 30,
+              selectedIconTheme: const IconThemeData(color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

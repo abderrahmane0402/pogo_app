@@ -1,3 +1,4 @@
+import 'package:example_app/pages/Layout.dart';
 import 'package:example_app/pages/info_personnel.dart';
 import 'package:example_app/pages/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +22,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        '/profile': (context) => const Profile(),
+        '/Home': (context) => const Layout(),
         '/': (context) => const FirstPage(),
         '/beforeLogin': (context) => const SecondPage(),
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),
-        'infoPersonnels': (context) => const InfoPersonnel()
+        '/infoPersonnels': (context) => const InfoPersonnel()
       },
     );
   }
