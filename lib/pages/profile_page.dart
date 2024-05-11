@@ -25,6 +25,20 @@ class _ProfileState extends State<Profile> {
               fontWeight: FontWeight.w500,
             ),
           ),
+          const SizedBox(height: 10),
+          Card(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(100))),
+            elevation: 20,
+            child: CircleAvatar(
+              radius: 65,
+              backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
+              child: CircleAvatar(
+                radius: 60,
+                child: Image.asset('assets/images/home.png'),
+              ),
+            ),
+          ),
           const Text("zakia ouajih",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
