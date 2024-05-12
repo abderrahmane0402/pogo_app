@@ -13,8 +13,9 @@ class Home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment
             .spaceBetween, // Align children to the top of the column
         children: [
-          SizedBox(
-            height: 200,
+
+           SizedBox(
+            height: 180,
             width: double.infinity,
             child: Container(
               decoration: BoxDecoration(
@@ -32,7 +33,7 @@ class Home extends StatelessWidget {
                         padding: EdgeInsets.only(
                             left: 10.0), // Add padding to the top
                         child: SizedBox(
-                          width: 150,
+                          width: 140,
                           child: Text(
                             'Votre sécurité est notre priorité.',
                             style: TextStyle(
@@ -43,37 +44,39 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: SizedBox(
-                          width: 150, // Set your desired width here
-                          child: Divider(
-                            height: 20, // Set your desired height for the line
-                            thickness:
-                                2, // Set your desired thickness for the line
-                            color: Colors
-                                .white, // Set your desired color for the line
-                          ),
+
+                        padding:  EdgeInsets.only(left: 10.0),
+                      child: SizedBox(
+                        width: 140, // Set your desired width here
+                        child: Divider(
+                          height: 20, // Set your desired height for the line
+                          thickness: 2, // Set your desired thickness for the line
+                          color: Colors.white, // Set your desired color for the line
+                        ),
+                      ),),
+                      Padding(
+                        padding:  EdgeInsets.only(left: 10.0),
+                      child: SizedBox(
+                        width: 140, // Set your desired width here
+                        child: Text(
+                          'Profitez de transactions sûres avec notre application mobile',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w100,
+                            fontSize: 10),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: SizedBox(
-                          width: 150, // Set your desired width here
-                          child: Text(
-                            'Profitez de transactions sûres avec notre application mobile',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w100,
-                                fontSize: 12),
-                          ),
-                        ),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
-                    child: Image.asset('assets/images/home.png', width: 165),
-                  ),
+
+                   Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Image.asset('assets/images/home.png',width: 140,),
+    ),
+
+
+                  
                 ],
               ),
             ),

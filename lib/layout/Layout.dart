@@ -51,9 +51,28 @@ class _LayoutState extends State<Layout> {
       home: Scaffold(
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
         appBar: AppBar(
-          centerTitle: true,
           backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-          title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+          title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Image.asset('assets/images/pogo.png', width: 120, height: 60),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.notifications),
+                      onPressed: () {
+
+                      },
+                      color: const Color.fromRGBO(5, 12, 79, 1.0),
+                    ),
+                  ],
+                ),
+              ],
+          ),
         ),
         body: Center(child: _pages.elementAt(_selectedIndex)),
         bottomNavigationBar: BottomNavigationBar(

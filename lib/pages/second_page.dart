@@ -44,9 +44,9 @@ class SecondPage extends StatelessWidget {
             // const SizedBox(height: 20),
             Container(
               padding:  const EdgeInsets.symmetric(horizontal: 40) ,
-              child: Image.asset('assets/images/img1.png',width: 469,height: 373),
+              child: Image.asset('assets/images/img1.png',width: 469,),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
