@@ -19,14 +19,28 @@ class _ProfileState extends State<Profile> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Text(
-            "ZAKIA OUAJIH",
+            "Votre Profile",
             style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
             ),
           ),
-          const Text("zakiaouajih@gmail.com", style: TextStyle(fontSize: 18)),
-          const Text("0777524479", style: TextStyle(fontSize: 18)),
+          const SizedBox(height: 10),
+          Card(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(100))),
+            elevation: 20,
+            child: CircleAvatar(
+              radius: 65,
+              backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
+              child: CircleAvatar(
+                radius: 60,
+                child: Image.asset('assets/images/home.png'),
+              ),
+            ),
+          ),
+          const Text("zakia ouajih",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
           Expanded(
             child: SizedBox(
@@ -40,52 +54,33 @@ class _ProfileState extends State<Profile> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
-                child: Column(
-                  children: [
-                    const MenuItem(
+                child: ListView(
+                  children: const [
+                    MenuItem(
                       icon: Icons.person_3_outlined,
                       title: "information personnels",
                       href: "/infoPersonnels",
                     ),
-                    const MenuItem(
+                    MenuItem(
                       icon: Icons.payment_outlined,
                       title: "vos carte bancaire",
                       href: "",
                     ),
-                    const MenuItem(
+                    MenuItem(
                       icon: Icons.notifications_outlined,
                       title: "les notifications",
                       href: "",
                     ),
-                    const MenuItem(
+                    MenuItem(
                       icon: Icons.history_rounded,
                       title: "historique d'activite",
                       href: "",
                     ),
-                    Expanded(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: FilledButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/beforeLogin');
-                            },
-                            style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromRGBO(5, 12, 79, 1))),
-                            child: const Text(
-                              "se déconnecter",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ))
+                    MenuItem(
+                      icon: Icons.logout_outlined,
+                      title: "Déconnecter",
+                      href: "/beforeLogin",
+                    ),
                   ],
                 ),
               ),
@@ -119,7 +114,7 @@ class MenuItem extends StatelessWidget {
         ),
         child: Icon(
           icon,
-          color: Color.fromRGBO(5, 12, 79, 1),
+          color: const Color.fromRGBO(5, 12, 79, 1),
         ),
       ),
       trailingIcon: const Icon(

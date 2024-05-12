@@ -6,11 +6,14 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.only(top: 10.0,left: 3.0, right: 3.0), // Adjust the value as needed
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: 10.0, left: 3.0, right: 3.0), // Adjust the value as needed
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align children to the top of the column
+        mainAxisAlignment: MainAxisAlignment
+            .spaceBetween, // Align children to the top of the column
         children: [
+
            SizedBox(
             height: 180,
             width: double.infinity,
@@ -20,14 +23,15 @@ class Home extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               alignment: Alignment.topCenter, // Align the child to the top
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:[
+                children: [
                   const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding:  EdgeInsets.only(left: 10.0), // Add padding to the top
+                        padding: EdgeInsets.only(
+                            left: 10.0), // Add padding to the top
                         child: SizedBox(
                           width: 140,
                           child: Text(
@@ -40,6 +44,7 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       Padding(
+
                         padding:  EdgeInsets.only(left: 10.0),
                       child: SizedBox(
                         width: 140, // Set your desired width here
@@ -58,18 +63,20 @@ class Home extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w100,
-                            fontSize: 10
-                          ),
+                            fontSize: 10),
                         ),
-                      ),),
+                      ),
+                      ),
                     ],
                   ),
 
                    Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Image.asset('assets/images/home.png',width: 140,),
+    ),
 
-                  ),
+
+                  
                 ],
               ),
             ),
@@ -78,7 +85,5 @@ class Home extends StatelessWidget {
         ],
       ),
     );
-
-
   }
 }

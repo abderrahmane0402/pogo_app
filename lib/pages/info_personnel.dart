@@ -223,7 +223,7 @@ class _InfoPersonnelState extends State<InfoPersonnel> {
                   ),
                 ),
                 child: const Text(
-                  'Login',
+                  'Enregistrer',
                   style: TextStyle(
                       color: Color.fromRGBO(5, 12, 79, 1.0)), // Text color
                 ),
