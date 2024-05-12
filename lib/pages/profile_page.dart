@@ -64,7 +64,7 @@ class _ProfileState extends State<Profile> {
                     MenuItem(
                       icon: Icons.payment_outlined,
                       title: "vos carte bancaire",
-                      href: "",
+                      href: "/carteBancaire",
                     ),
                     MenuItem(
                       icon: Icons.notifications_outlined,
