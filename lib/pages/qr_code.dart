@@ -1,22 +1,27 @@
-import 'dart:io'; // Import necessary library for Platform
-
-import 'package:flutter/foundation.dart';
+// Importing necessary libraries
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+// Define the main function, which is the entry point of the Dart application
 void main() {
+  // Call the runApp function to start the Flutter application
   runApp(const QR_Code());
 }
 
+// Define a StatelessWidget to represent your app
 class QR_Code extends StatelessWidget {
-  const QR_Code({Key? key}) : super(key: key);
+  const QR_Code({super.key});
 
+  // Override the build method to describe the UI of your app
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.only(
-        top: 10.0, left: 3.0, right: 3.0),);}
-
+    // Return a MaterialApp widget, which is the root of your app's widget tree
+    return const Center(
+      child: Text(
+        'Hello, World!',
+        style: TextStyle(fontSize: 24),
+      ),
+    );
+  }
 
 }
 
