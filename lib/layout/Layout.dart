@@ -1,4 +1,5 @@
 // Importing necessary libraries
+import 'package:example_app/pages/AddCarte.dart';
 import 'package:example_app/pages/CarteBancaire.dart';
 import 'package:example_app/pages/home.dart';
 import 'package:example_app/pages/info_personnel.dart';
@@ -47,6 +48,7 @@ class _LayoutState extends State<Layout> {
         '/infoPersonnels': (context) => const InfoPersonnel(),
         "/beforeLogin": (context) => const Login(),
         "/carteBancaire": (context) => const CarteBancaire(),
+        "/addCarte": (context) => const AddCarteBancaire(),
       },
       home: Scaffold(
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),

@@ -1,0 +1,83 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class AddCarteBancaire extends StatefulWidget {
+  const AddCarteBancaire({super.key});
+
+  @override
+  State<AddCarteBancaire> createState() => _AddCarteBancaireState();
+}
+
+class _AddCarteBancaireState extends State<AddCarteBancaire> {
+  final TextEditingController nomProprietaireController =
+      TextEditingController();
+  final TextEditingController numeroController = TextEditingController();
+  final TextEditingController dateExpirationController =
+      TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Dispose des contrôleurs lorsqu'ils ne sont plus utilisés
+    nomProprietaireController.dispose();
+    numeroController.dispose();
+    dateExpirationController.dispose();
+    cvvController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+        title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                'Ajouter une carte bancaire',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 220,
+              child: Card(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                color: Color.fromRGBO(54, 54, 54, 1.0),
+                child: Padding(
+                  padding: EdgeInsets.all(40.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "....  ....  ....  7668",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
+                      
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
