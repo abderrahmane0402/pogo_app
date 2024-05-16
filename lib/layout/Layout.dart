@@ -7,6 +7,7 @@ import 'package:example_app/pages/login_page.dart';
 import 'package:example_app/pages/paiement.dart';
 import 'package:example_app/pages/profile_page.dart';
 import 'package:example_app/pages/qr_code.dart';
+import 'package:example_app/pages/scan_qr_code.dart';
 import 'package:flutter/material.dart';
 
 // Define the main function, which is the entry point of the Dart application
@@ -48,6 +49,7 @@ class _LayoutState extends State<Layout> {
         '/infoPersonnels': (context) => const InfoPersonnel(),
         "/beforeLogin": (context) => const Login(),
         "/carteBancaire": (context) => const CarteBancaire(),
+        "/scanQrCode": (context) => const ScanQrCode(),
         "/addCarte": (context) => const AddCarteBancaire(),
       },
       home: Scaffold(

@@ -1,3 +1,4 @@
+import 'package:example_app/pages/scan_qr_code.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -56,7 +57,10 @@ class _PaiementState extends State<Paiement> {
         const SizedBox(height: 20,),
         ElevatedButton(
           onPressed: () {
-            // Perform login/authentication logic here
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const QRScanner()),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor:  const Color.fromRGBO(5, 12, 79, 1.0), // Background color

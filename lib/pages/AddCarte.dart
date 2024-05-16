@@ -35,11 +35,11 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
         title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
                 'Ajouter une carte bancaire',
@@ -49,7 +49,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               height: 220,
               child: Card(
@@ -62,17 +62,150 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "....  ....  ....  7668",
+                        "....  ....  ....  ....",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                         ),
                       ),
-                      
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Valid to",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                "15/02/2025",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 70,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "CVV",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                "...",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Nom du propriétaire',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: nomProprietaireController,
+                    decoration: const InputDecoration(
+                      hintText: 'Nom complet',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Numéro de carte',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: numeroController,
+                    decoration: const InputDecoration(
+                      hintText: '1234 5678 9012 3456',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Date d\'expiration',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            TextField(
+                              controller: dateExpirationController,
+                              decoration: const InputDecoration(
+                                hintText: 'MM/YY',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'CVV',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            TextField(
+                              controller: cvvController,
+                              decoration: const InputDecoration(
+                                hintText: '123',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
