@@ -64,7 +64,9 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                       Text(
                         "....  ....  ....  ....",
                         style: TextStyle(
-                          fontSize: 25,
+
+
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                         ),
@@ -209,6 +211,32 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(Color.fromRGBO(54, 54, 54, 1.0)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      5.0), // Adjust the value to your preference
+                ),
+              ),
+            ),
+            onPressed: () {
+              // Action to be performed when the button is pressed
+            },
+            child: Text(
+              'Ajouter la carte bancaire',
+              style: TextStyle(fontSize: 18, color: Colors.white),
+            ),
+          ),
         ),
       ),
     );
