@@ -29,8 +29,6 @@ class _LayoutState extends State<Layout> {
   // Define your pages here
   final List<Widget> _pages = [
     const Home(),
-    const Paiement(),
-    const QR_Code(),
     const Profile()
   ];
 
@@ -49,7 +47,6 @@ class _LayoutState extends State<Layout> {
         '/infoPersonnels': (context) => const InfoPersonnel(),
         "/beforeLogin": (context) => const Login(),
         "/carteBancaire": (context) => const CarteBancaire(),
-        "/scanQrCode": (context) => const ScanQrCode(),
         "/addCarte": (context) => const AddCarteBancaire(),
       },
       home: Scaffold(
@@ -69,7 +66,12 @@ class _LayoutState extends State<Layout> {
                     IconButton(
                       icon: const Icon(Icons.notifications),
                       onPressed: () {
-
+                      },
+                      color: const Color.fromRGBO(5, 12, 79, 1.0),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.person),
+                      onPressed: () {
                       },
                       color: const Color.fromRGBO(5, 12, 79, 1.0),
                     ),
@@ -98,20 +100,8 @@ class _LayoutState extends State<Layout> {
               label: 'HOME',
               backgroundColor: Color.fromRGBO(63, 207, 173, 1),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.payments_outlined,
-              ),
-              label: 'Paiement',
-              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.qr_code_2,
-              ),
-              label: 'QR code',
-              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
-            ),
+
+
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,
