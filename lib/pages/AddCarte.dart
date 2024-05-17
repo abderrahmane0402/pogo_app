@@ -64,7 +64,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                       Text(
                         "....  ....  ....  ....",
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 25,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                         ),
