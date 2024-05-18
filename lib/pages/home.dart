@@ -1,89 +1,113 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:example_app/pages/paiement.dart';
+import 'package:example_app/pages/qr_code.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-          top: 10.0, left: 3.0, right: 3.0), // Adjust the value as needed
+      padding: const EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment
-            .spaceBetween, // Align children to the top of the column
         children: [
-
-           SizedBox(
-            height: 180,
+          SizedBox(
+            height: 70,
             width: double.infinity,
             child: Container(
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(5, 12, 79, 1.0),
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(10.0),
               ),
-              alignment: Alignment.topCenter, // Align the child to the top
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 10.0), // Add padding to the top
-                        child: SizedBox(
-                          width: 140,
-                          child: Text(
-                            'Votre sécurité est notre priorité.',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-
-                        padding:  EdgeInsets.only(left: 10.0),
-                      child: SizedBox(
-                        width: 140, // Set your desired width here
-                        child: Divider(
-                          height: 20, // Set your desired height for the line
-                          thickness: 2, // Set your desired thickness for the line
-                          color: Colors.white, // Set your desired color for the line
-                        ),
-                      ),),
-                      Padding(
-                        padding:  EdgeInsets.only(left: 10.0),
-                      child: SizedBox(
-                        width: 140, // Set your desired width here
-                        child: Text(
-                          'Profitez de transactions sûres avec notre application mobile',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w100,
-                            fontSize: 10),
-                        ),
-                      ),
-                      ),
-                    ],
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Paiement()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent, // Set transparent color
+                      elevation: 0, // Remove elevation
+                      shadowColor: Colors.transparent, // Set shadow color to transparent
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.payments_outlined, size: 30, color: Colors.white),
+                        SizedBox(height: 5), // Adjust as needed
+                        Text('Paiement', style: TextStyle(fontSize: 11, color: Colors.white)),
+                      ],
+                    ),
                   ),
 
-                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Image.asset('assets/images/home.png',width: 140,),
-    ),
-
-
-                  
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const QR_Code()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent, // Set transparent color
+                      elevation: 0, // Remove elevation
+                      shadowColor: Colors.transparent, // Set shadow color to transparent
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.qr_code_2, size: 30, color: Colors.white,),
+                        SizedBox(height: 5), // Adjust as needed
+                        Text('QR code', style: TextStyle(fontSize: 11, color: Colors.white)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          // Add more widgets here if needed
         ],
       ),
     );
   }
 }
+
+void main() {
+  runApp(const MaterialApp(home: Home()));
+}
+
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.spaceAround,
+// children: [
+// Column(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// NavigationRail(
+// selectedIndex: _selectedIndex,
+// onDestinationSelected: (int index) {
+// setState(() {
+// _selectedIndex = index;
+// });
+// },
+// destinations: const [
+//
+// NavigationRailDestination(
+// icon: Icon(Icons.payments_outlined),
+// label: Text('Paiement'),
+// ),
+// NavigationRailDestination(
+// icon: Icon(Icons.qr_code_2),
+// label: Text('QR code'),
+// ),
+// ],
+// ),
+// ],
+// ),
+// Expanded(
+// child: _widgetOptions[_selectedIndex],
+// ),
+// ],
+// ),

@@ -17,7 +17,14 @@ class _PaiementState extends State<Paiement> {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return  Scaffold(
+        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+          title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+          centerTitle: true,
+      ),
+      body:Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
@@ -75,7 +82,7 @@ class _PaiementState extends State<Paiement> {
           ),
         ),
       ],
-    );
+    ),);
   }
 
   @override

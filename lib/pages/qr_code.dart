@@ -34,7 +34,14 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+          title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+          centerTitle: true,
+        ),
+    body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,6 +72,6 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
 
           ].cast<Widget>(), // Ensure the list contains only widgets
         ),
-    );
+    ),);
   }
 }
