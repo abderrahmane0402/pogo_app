@@ -45,3 +45,4 @@ app.*.map.json
 
 
 /server/node_modules
+/server/.env
