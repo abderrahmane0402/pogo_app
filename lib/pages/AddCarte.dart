@@ -81,7 +81,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                                 ),
                               ),
                               Text(
-                                "15/02/2025",
+                                "02/2025",
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
