@@ -1,23 +1,23 @@
-import { model, Schema } from 'mongoose';
-
+import { model, Schema } from "mongoose"
 
 const cartebancaireSchema = new Schema({
-    nomProprietaire: { type: String, required: true },
-    numCarte: { type: Number, required: true, unique: true },
-    cvv: { type: Number, required: true },
-    dateExperation: { type: Date, required: true },
-});
+  nomProprietaire: { type: String, required: true },
+  numCarte: { type: Number, required: true, unique: true },
+  cvv: { type: Number, required: true },
+  dateExperation: { type: Date, required: true },
+})
 
 const utilisateurSchema = new Schema({
-    nom: { type: String, required: true },
-    date_creation: { type: Date, default: Date.now },
-    photo: String,
-    prenom: { type: String, required: true },
-    email: { type: String, required: true },
-    telephone: { type: Number, required: true },
-    carteBancaire: [cartebancaireSchema]
-});
+  nom: { type: String, required: true },
+  date_creation: { type: Date, default: Date.now },
+  photo: String,
+  prenom: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  telephone: { type: Number, required: true, unique: true },
+  password: { type: String, required: true },
+  carteBancaire: [cartebancaireSchema],
+})
 
-const Utilisateur = model('Utilisateur', utilisateurSchema);
+const Utilisateur = model("Utilisateur", utilisateurSchema)
 
 export default Utilisateur
