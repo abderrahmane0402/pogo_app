@@ -94,9 +94,10 @@ class _PhoneFormState extends State<PhoneForm> {
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
                       // Perform registration logic here
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Enregistrement réussi')),
-                      );
+                      Navigator.pushNamed(context, '/verifier_phone');
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   const SnackBar(content: Text('Enregistrement réussi')),
+                      // );
                     }
                   },
                   style: ElevatedButton.styleFrom(

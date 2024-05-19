@@ -1,4 +1,5 @@
 import 'package:example_app/layout/Layout.dart';
+import 'package:example_app/pages/Verifier_phone.dart';
 import 'package:example_app/pages/home.dart';
 import 'package:example_app/pages/info_personnel.dart';
 import 'package:example_app/pages/register1_page.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),
         '/phone_number' :(context) => const PhoneForm(),
+        '/verifier_phone': (context) => VerifierPhone(),
         '/infoPersonnels': (context) => const InfoPersonnel()
       },
     );
