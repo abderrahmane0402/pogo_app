@@ -1,4 +1,5 @@
 import 'package:example_app/layout/Layout.dart';
+import 'package:example_app/pages/home.dart';
 import 'package:example_app/pages/info_personnel.dart';
 import 'package:flutter/material.dart';
 import 'pages/FirstPage.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        '/Home': (context) => const Layout(),
+        '/Home': (context) => const Home(),
         '/': (context) => const FirstPage(),
         '/beforeLogin': (context) => const SecondPage(),
         '/login': (context) => const Login(),

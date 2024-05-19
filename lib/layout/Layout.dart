@@ -72,6 +72,9 @@ class _LayoutState extends State<Layout> {
                     IconButton(
                       icon: const Icon(Icons.person),
                       onPressed: () {
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const Profile()),
+                        );
                       },
                       color: const Color.fromRGBO(5, 12, 79, 1.0),
                     ),
@@ -80,39 +83,8 @@ class _LayoutState extends State<Layout> {
               ],
           ),
         ),
-        body: Center(child: _pages.elementAt(_selectedIndex)),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 10,
-          type: BottomNavigationBarType.shifting,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: const Color.fromRGBO(5, 12, 79, 1.0),
-          unselectedLabelStyle:
-              const TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)),
-          backgroundColor: const Color.fromRGBO(
-              44, 176, 145, 1.0), // Background color of the BottomNavigationBar
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-              ),
-              label: 'HOME',
-              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
-            ),
+        // body: Center(child: _pages.elementAt(_selectedIndex)),
 
-
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-              ),
-              label: 'Profile',
-              backgroundColor: Color.fromRGBO(63, 207, 173, 1),
-            ),
-          ],
-          iconSize: 30,
-          selectedIconTheme: const IconThemeData(color: Colors.white),
-        ),
       ),
     );
   }

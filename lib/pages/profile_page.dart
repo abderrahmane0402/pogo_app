@@ -13,7 +13,14 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Scaffold(
+        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+    appBar: AppBar(
+    backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+    title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+    centerTitle: true,
+    ),
+    body: SizedBox(
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -87,7 +94,7 @@ class _ProfileState extends State<Profile> {
             ),
           )
         ],
-      ),
+      ),)
     );
   }
 }
