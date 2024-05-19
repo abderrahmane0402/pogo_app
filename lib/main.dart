@@ -1,6 +1,7 @@
 import 'package:example_app/layout/Layout.dart';
 import 'package:example_app/pages/home.dart';
 import 'package:example_app/pages/info_personnel.dart';
+import 'package:example_app/pages/register1_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/FirstPage.dart';
 import 'pages/second_page.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/beforeLogin': (context) => const SecondPage(),
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),
+        '/phone_number' :(context) => const PhoneForm(),
         '/infoPersonnels': (context) => const InfoPersonnel()
       },
     );
