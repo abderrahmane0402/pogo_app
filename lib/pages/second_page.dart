@@ -75,7 +75,7 @@ class SecondPage extends StatelessWidget {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/verifier_phone');
+                    Navigator.pushNamed(context, '/phone_number');
                   },
                   child: Container(
                     width: 120, // Adjust width as needed
