@@ -26,12 +26,6 @@ const loginValidator = [
 router.post("/login", loginValidator, async (req, res) => {
   try {
     const { login, password } = req.body
-    if (login == null || password == null) {
-      res
-        .status(400)
-        .send({ message: "Please provide login and password", status: "error" })
-      return
-    }
     const user = await Utilisateur.findOne({ telephone: login }).select(
       "-carteBancaire"
     )
@@ -105,5 +99,10 @@ router.post("/registre", registreValidator, async (req, res) => {
     console.error(error)
   }
 })
+
+// phone validation
+// router.post("/phoneValidation", async (req, res) => {
+
+// })
 
 export default router
