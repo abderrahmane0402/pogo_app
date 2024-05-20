@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 config()
 
 export function generateAccessToken(id) {
-  return jwt.sign(id, process.env.TOKEN_SECRET, { expiresIn: "1d" })
+  return jwt.sign({ id: id }, process.env.TOKEN_SECRET, { expiresIn: "1d" })
 }
 
 export function authenticateToken(req, res, next) {

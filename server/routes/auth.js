@@ -1,21 +1,34 @@
 import { Router } from "express"
 import Utilisateur from "../models/utilisateur.js"
-import { authenticateToken, generateAccessToken } from "../middleware.js"
+import { generateAccessToken } from "../middleware.js"
 import bcrypt from "bcrypt"
+import { body, validationResult } from "express-validator"
+
 const router = Router()
 
-router.post("/login", async (req, res) => {
+// data validator for login
+const loginValidator = [
+  body("login").trim().notEmpty(),
+  body("password").trim().notEmpty().isLength({ min: 8 }),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ message: "Validation failed", errors: errors.array() })
+    }
+    next()
+  },
+]
+
+// login
+
+router.post("/login", loginValidator, async (req, res) => {
   try {
     const { login, password } = req.body
-    if (login == null || password == null) {
-      res
-        .status(400)
-        .send({ message: "Please provide login and password", status: "error" })
-      return
-    }
-    const user = await Utilisateur.findOne({
-      $or: [{ telephone: login }, { email: login }],
-    }).select("-carteBancaire")
+    const user = await Utilisateur.findOne({ telephone: login }).select(
+      "-carteBancaire"
+    )
     if (user.$isEmpty()) {
       res.status(400).send({ message: "User not found", status: "error" })
       return
@@ -39,32 +52,57 @@ router.post("/login", async (req, res) => {
   }
 })
 
-router.post("/registre", async (req, res) => {
-  try {
-    const { nom, prenom, telephone, email, password } = req.body
-    if (
-      nom == null ||
-      prenom == null ||
-      telephone == null ||
-      email == null ||
-      password == null
-    ) {
-      res.status(400).send("Please provide user information")
-      return
+// data validator for register
+
+const registreValidator = [
+  body("nom").trim().notEmpty(),
+  body("prenom").trim().notEmpty(),
+  body("telephone").trim().notEmpty().isLength({ min: 8 }),
+  body("password").trim().notEmpty().isLength({ min: 9 }),
+  body("confirmePassword")
+    .trim()
+    .notEmpty()
+    .isLength({ min: 9 })
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Password confirmation does not match password")
+      }
+      return true
+    }),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ message: "Validation failed", errors: errors.array() })
     }
-    cryptedPassword = await bcrypt.hash(password, 10)
+    next()
+  },
+]
+
+// register
+
+router.post("/registre", registreValidator, async (req, res) => {
+  try {
+    const { nom, prenom, telephone, password } = req.body
+    const cryptedPassword = await bcrypt.hash(password, 10)
     const user = new Utilisateur({
       nom,
       prenom,
       telephone,
-      email,
-      cryptedPassword,
+      password: cryptedPassword,
     })
     await user.save()
     res.send({ message: "User created successfully", status: "success" })
   } catch (error) {
     res.status(500).json({ message: error.message, status: "error" })
+    console.error(error)
   }
 })
+
+// phone validation
+// router.post("/phoneValidation", async (req, res) => {
+
+// })
 
 export default router

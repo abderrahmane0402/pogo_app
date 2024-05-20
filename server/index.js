@@ -15,10 +15,12 @@ dbConnect()
   .catch((err) => console.error("MongoDB connection error:", err))
 
 app.get("/", async (req, res) => {
+
   // const user = await Utilisateur.findOne({ telephone: "777524479" }).select(
   //   "-telephone"
   // )
   res.send('hi')
+
 })
 
 app.listen(port, () => {
