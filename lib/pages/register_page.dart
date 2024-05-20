@@ -98,6 +98,9 @@ class _RegisterState extends State<Register> {
                             if (value == null || value.isEmpty) {
                               return 'Veuillez entrer votre nom';
                             }
+                            if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                              return 'Veuillez entrer seulement des lettres';
+                            }
                             return null;
                           },
                         ),
@@ -122,6 +125,9 @@ class _RegisterState extends State<Register> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Veuillez entrer votre prenom';
+                            }
+                            if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                              return 'Veuillez entrer seulement des lettres';
                             }
                             return null;
                           },
@@ -232,8 +238,8 @@ class _RegisterState extends State<Register> {
                       if (value == null || value.isEmpty) {
                         return 'Veuillez entrer votre password';
                       }
-                      if (value.length < 6) {
-                        return 'Le mot de passe doit contenir au moins 6 caractères';
+                      if (value.length < 8) {
+                        return 'Le mot de passe doit contenir au moins 8 caractères';
                       }
                       return null;
                     },
