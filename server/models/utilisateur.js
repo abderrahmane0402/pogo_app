@@ -5,6 +5,7 @@ const cartebancaireSchema = new Schema({
   numCarte: { type: Number, required: true, unique: true, sparse: true },
   cvv: { type: Number, required: true },
   dateExperation: { type: Date, required: true },
+  isdefault: { type: Boolean, default: false },
 })
 
 const utilisateurSchema = new Schema({

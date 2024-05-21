@@ -1,14 +1,14 @@
 import express, { json } from "express"
 import { dbConnect } from "./db.js"
-import Utilisateur from "./models/utilisateur.js"
 import AuthRouter from "./routes/auth.js"
-import bcrypt from "bcrypt"
+import UserRouter from "./routes/user.js"
 
 const app = express()
 const port = 3000
 
 app.use(json())
 app.use("/auth", AuthRouter)
+app.use("/user", UserRouter)
 
 dbConnect()
   .then(() => console.log("MongoDB connected"))

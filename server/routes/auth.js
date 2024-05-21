@@ -29,7 +29,7 @@ router.post("/login", loginValidator, async (req, res) => {
     const user = await Utilisateur.findOne({ telephone: login }).select(
       "-carteBancaire"
     )
-    if (user.$isEmpty()) {
+    if (!user) {
       res.status(400).send({ message: "User not found", status: "error" })
       return
     }
