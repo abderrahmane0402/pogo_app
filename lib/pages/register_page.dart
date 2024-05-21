@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:example_app/config/url.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -19,6 +22,8 @@ class _RegisterState extends State<Register> {
   late TextEditingController _telTextEditingController;
   late TextEditingController _emailTextEditingController;
   late TextEditingController _passwordTextEditingController;
+  late TextEditingController _confirmPasswordTextEditingController;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -29,6 +34,7 @@ class _RegisterState extends State<Register> {
     _telTextEditingController = TextEditingController();
     _emailTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
+    _confirmPasswordTextEditingController = TextEditingController();
   }
 
   @override
@@ -38,7 +44,36 @@ class _RegisterState extends State<Register> {
     _telTextEditingController.dispose();
     _emailTextEditingController.dispose();
     _passwordTextEditingController.dispose();
+    _confirmPasswordTextEditingController.dispose();
     super.dispose();
+  }
+
+  void registerUser() async {
+    var regBody = {
+      "nom": _nomTextEditingController.text,
+      "prenom": _prenomTextEditingController.text,
+      "telephone": _telTextEditingController.text,
+      "email": _emailTextEditingController.text,
+      "password": _passwordTextEditingController.text,
+    };
+
+    var response = await http.post(
+      Uri.parse(register),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(regBody),
+    );
+
+    if (response.statusCode == 200) {
+      // Registration successful
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enregistrement réussi')),
+      );
+    } else {
+      // Registration failed
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Échec de l\'enregistrement')),
+      );
+    }
   }
 
   @override
@@ -70,6 +105,7 @@ class _RegisterState extends State<Register> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // Nom input
                       Expanded(
                         child: TextFormField(
                           controller: _nomTextEditingController,
@@ -86,11 +122,11 @@ class _RegisterState extends State<Register> {
                               borderSide: BorderSide.none,
                             ),
                             prefixIcon: const Padding(
-                              padding: EdgeInsets.all(8), // Adjust padding as needed
+                              padding: EdgeInsets.all(8),
                               child: Icon(
-                                Icons.person, // Icon for email input
-                                color: Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
-                                size: 25, // Size of the icon
+                                Icons.person,
+                                color: Color.fromRGBO(5, 12, 79, 1.0),
+                                size: 25,
                               ),
                             ),
                           ),
@@ -105,7 +141,8 @@ class _RegisterState extends State<Register> {
                           },
                         ),
                       ),
-                      const SizedBox(width: 16), // Add some spacing between the two text fields
+                      const SizedBox(width: 16),
+                      // Prénom input
                       Expanded(
                         child: TextFormField(
                           controller: _prenomTextEditingController,
@@ -115,8 +152,8 @@ class _RegisterState extends State<Register> {
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             filled: true,
                             fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                            labelText: 'Votre prenom',
-                            hintText: 'prenom',
+                            labelText: 'Votre prénom',
+                            hintText: 'prénom',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
@@ -124,7 +161,7 @@ class _RegisterState extends State<Register> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Veuillez entrer votre prenom';
+                              return 'Veuillez entrer votre prénom';
                             }
                             if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
                               return 'Veuillez entrer seulement des lettres';
@@ -136,6 +173,7 @@ class _RegisterState extends State<Register> {
                     ],
                   ),
                 ),
+                // Phone input
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: TextFormField(
@@ -146,33 +184,33 @@ class _RegisterState extends State<Register> {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       filled: true,
                       fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                      labelText: 'Enter votre telephone',
+                      labelText: 'Enter votre téléphone',
                       hintText: '06xxxxxxxx',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
                       ),
                       prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8), // Adjust padding as needed
+                        padding: EdgeInsets.all(8),
                         child: Icon(
-                          Icons.phone, // Icon for email input
-                          color: Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
-                          size: 25, // Size of the icon
+                          Icons.phone,
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          size: 25,
                         ),
                       ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre telephone';
+                        return 'Veuillez entrer votre téléphone';
                       }
                       if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                        return 'Veuillez entrer un numero de telephone valide';
+                        return 'Veuillez entrer un numéro de téléphone valide';
                       }
                       return null;
                     },
                   ),
                 ),
-                // const SizedBox(height: 5),
+                // Email input
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: TextFormField(
@@ -190,11 +228,11 @@ class _RegisterState extends State<Register> {
                         borderSide: BorderSide.none,
                       ),
                       prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8), // Adjust padding as needed
+                        padding: EdgeInsets.all(8),
                         child: Icon(
-                          Icons.email, // Icon for email input
-                          color: Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
-                          size: 25, // Size of the icon
+                          Icons.email,
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          size: 25,
                         ),
                       ),
                     ),
@@ -209,6 +247,7 @@ class _RegisterState extends State<Register> {
                     },
                   ),
                 ),
+                // Password input
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: TextFormField(
@@ -226,11 +265,11 @@ class _RegisterState extends State<Register> {
                         borderSide: BorderSide.none,
                       ),
                       prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8), // Adjust padding as needed
+                        padding: EdgeInsets.all(8),
                         child: Icon(
-                          Icons.lock, // Icon for email input
-                          color: Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
-                          size: 25, // Size of the icon
+                          Icons.lock,
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          size: 25,
                         ),
                       ),
                     ),
@@ -245,19 +284,53 @@ class _RegisterState extends State<Register> {
                     },
                   ),
                 ),
+                // Confirm password input
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextFormField(
+                    controller: _confirmPasswordTextEditingController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
+                      labelText: 'Confirmer votre password',
+                      hintText: 'confirm password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.lock,
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          size: 25,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez confirmer votre password';
+                      }
+                      if (value != _passwordTextEditingController.text) {
+                        return 'Les mots de passe ne correspondent pas';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      // Perform registration logic here
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Enregistrement réussi')),
-                      );
+                      registerUser();
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                    padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15), // Button padding
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       side: const BorderSide(
@@ -267,8 +340,8 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   child: const Text(
-                    'Login',
-                    style: TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)), // Text color
+                    'Register',
+                    style: TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)),
                   ),
                 ),
               ],
