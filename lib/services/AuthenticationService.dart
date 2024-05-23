@@ -1,0 +1,63 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:example_app/config/url.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class AuthService {
+
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
+
+
+  Future<http.Response?> login(String tel, String password) async {
+    try {
+      var regBody = {
+        "login": tel,
+        "password": password,
+      };
+      final response = await http.post(
+        Uri.parse(login_url),
+        // Ensure 'login' is the correct URL string from config
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(regBody),
+      );
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+
+        String token = responseBody['data']['token'];
+        var user = responseBody['data']['user'];
+
+        await storage.write(key: 'auth_token', value: token);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('user_nom', user['nom']);
+        await prefs.setString('user_prenom', user['prenom']);
+        await prefs.setString('user_telephone', user['telephone'].toString());
+        await prefs.setString('user_password', user['password']);
+        return response;
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+    return null;
+
+
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user_nom');
+    await prefs.remove('user_prenom');
+    await prefs.remove('user_telephone');
+    await prefs.remove('user_password');
+
+    await storage.delete(key: 'auth_token');
+    print('logged out!');
+  }
+
+  Future<String?> getToken() async {
+    return await storage.read(key: 'token');
+  }
+}
+

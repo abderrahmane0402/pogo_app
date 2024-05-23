@@ -40,6 +40,8 @@ dependencies:
   qr_flutter: ^4.1.0
   pin_code_fields: ^8.0.1
   http:
+  flutter_secure_storage: ^9.2.1
+  shared_preferences: ^2.0.10
 
 dev_dependencies:
   flutter_test:

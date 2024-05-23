@@ -1,16 +1,30 @@
+import 'package:example_app/services/AuthenticationService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
+
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  AuthService authService = AuthService();
+
+  // void logout_user() async {
+  //   try {
+  //     final response = await authService.logout();
+  //
+  //   }catch{
+  //     print('error');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,23 +76,23 @@ class _ProfileState extends State<Profile> {
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
                 child: ListView(
-                  children: const [
-                    MenuItem(
+                  children:  [
+                    const MenuItem(
                       icon: Icons.person_3_outlined,
                       title: "information personnels",
                       href: "/infoPersonnels",
                     ),
-                    MenuItem(
+                    const MenuItem(
                       icon: Icons.payment_outlined,
                       title: "vos carte bancaire",
                       href: "/carteBancaire",
                     ),
-                    MenuItem(
+                    const MenuItem(
                       icon: Icons.notifications_outlined,
                       title: "les notifications",
                       href: "",
                     ),
-                    MenuItem(
+                    const MenuItem(
                       icon: Icons.history_rounded,
                       title: "historique d'activite",
                       href: "",
@@ -87,7 +101,12 @@ class _ProfileState extends State<Profile> {
                       icon: Icons.logout_outlined,
                       title: "Déconnecter",
                       href: "/beforeLogin",
+                      onPressed: (){
+                        authService.logout();
+                      },
                     ),
+
+
                   ],
                 ),
               ),
@@ -103,8 +122,10 @@ class MenuItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final String href;
+  final VoidCallback? onPressed;
   const MenuItem(
-      {super.key, required this.icon, required this.title, required this.href});
+      {super.key, required this.icon, required this.title, required this.href,this.onPressed}
+      );
 
   @override
   Widget build(BuildContext context) {

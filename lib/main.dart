@@ -2,6 +2,7 @@ import 'package:example_app/layout/Layout.dart';
 import 'package:example_app/pages/Verifier_phone.dart';
 import 'package:example_app/pages/home.dart';
 import 'package:example_app/pages/info_personnel.dart';
+import 'package:example_app/pages/logout.dart';
 import 'package:example_app/pages/register1_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/FirstPage.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const Register(),
         '/phone_number' :(context) => const PhoneForm(),
         '/verifier_phone': (context) => VerifierPhone(),
-        '/infoPersonnels': (context) => const InfoPersonnel()
+        '/infoPersonnels': (context) => const InfoPersonnel(),
+
       },
     );
   }

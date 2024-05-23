@@ -20,7 +20,6 @@ class _RegisterState extends State<Register> {
   late TextEditingController _nomTextEditingController;
   late TextEditingController _prenomTextEditingController;
   late TextEditingController _telTextEditingController;
-  late TextEditingController _emailTextEditingController;
   late TextEditingController _passwordTextEditingController;
   late TextEditingController _confirmPasswordTextEditingController;
 
@@ -32,7 +31,6 @@ class _RegisterState extends State<Register> {
     _nomTextEditingController = TextEditingController();
     _prenomTextEditingController = TextEditingController();
     _telTextEditingController = TextEditingController();
-    _emailTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
     _confirmPasswordTextEditingController = TextEditingController();
   }
@@ -42,7 +40,6 @@ class _RegisterState extends State<Register> {
     _nomTextEditingController.dispose();
     _prenomTextEditingController.dispose();
     _telTextEditingController.dispose();
-    _emailTextEditingController.dispose();
     _passwordTextEditingController.dispose();
     _confirmPasswordTextEditingController.dispose();
     super.dispose();
@@ -53,25 +50,36 @@ class _RegisterState extends State<Register> {
       "nom": _nomTextEditingController.text,
       "prenom": _prenomTextEditingController.text,
       "telephone": _telTextEditingController.text,
-      "email": _emailTextEditingController.text,
       "password": _passwordTextEditingController.text,
+      "confirmePassword": _confirmPasswordTextEditingController.text
     };
 
-    var response = await http.post(
-      Uri.parse(register),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(regBody),
-    );
+    print('Registering user with data: $regBody');
 
-    if (response.statusCode == 200) {
-      // Registration successful
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enregistrement réussi')),
+    try {
+      var response = await http.post(
+        Uri.parse(register),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(regBody),
       );
-    } else {
-      // Registration failed
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Enregistrement réussi')),
+        );
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Échec de l\'enregistrement: ${response.body}')),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Échec de l\'enregistrement')),
+        SnackBar(content: Text('Une erreur s\'est produite: $e')),
       );
     }
   }
@@ -210,43 +218,8 @@ class _RegisterState extends State<Register> {
                     },
                   ),
                 ),
-                // Email input
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: TextFormField(
-                    controller: _emailTextEditingController,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      filled: true,
-                      fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                      labelText: 'Enter votre email',
-                      hintText: 'example@example.com',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.email,
-                          color: Color.fromRGBO(5, 12, 79, 1.0),
-                          size: 25,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre email';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Veuillez entrer un email valide';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+
+
                 // Password input
                 Padding(
                   padding: const EdgeInsets.all(16),

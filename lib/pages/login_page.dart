@@ -1,7 +1,29 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../services/AuthenticationService.dart';
+import 'home.dart';
+import 'package:example_app/config/url.dart';
+import 'package:example_app/provider/AuthProvider.dart';
 
 void main() {
-  runApp(const Login());
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: const Login(),
+      routes: {
+        '/Home': (context) => Home(),
+      },
+    );
+  }
 }
 
 class Login extends StatefulWidget {
@@ -11,22 +33,73 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  late TextEditingController _emailTextEditingController;
+class _LoginState extends State<Login> with WidgetsBindingObserver {
+  late TextEditingController _telTextEditingController;
   late TextEditingController _passwordTextEditingController;
+
+  final _formKey = GlobalKey<FormState>();
+  final storage = const FlutterSecureStorage();
+  AuthService authService = AuthService();
+  // AuthProvider provider = AuthProvider(authService: AuthService);
+
 
   @override
   void initState() {
     super.initState();
-    _emailTextEditingController = TextEditingController();
+    _telTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    _emailTextEditingController.dispose();
+    _telTextEditingController.dispose();
     _passwordTextEditingController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+
+
+
+
+  void loginUser() async {
+    var regBody = {
+      "login": _telTextEditingController.text,
+      "password": _passwordTextEditingController.text,
+    };
+
+    print('Logging in user with data: $regBody');
+
+    try {
+      final response = await authService.login(regBody["login"]!, regBody["password"]!);
+
+      print('Response status: ${response?.statusCode}');
+      print('Response body: ${response?.body}');
+
+      if (response != null && response.statusCode == 200) {
+
+        var responseBody = jsonDecode(response.body);
+
+        String token = responseBody['data']['token'];
+        var user = responseBody['data']['user'];
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Connexion réussie')),
+        );
+        Navigator.pushReplacementNamed(context, '/Home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Échec de la connexion: ${response?.body}')),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Une erreur s\'est produite: $e')),
+      );
+    }
   }
 
   @override
@@ -40,97 +113,113 @@ class _LoginState extends State<Login> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Se connecter',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Se connecter',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: _emailTextEditingController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    filled: true,
-                    fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                    labelText: 'Enter votre email',
-                    hintText: 'example@example.com',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.all(8), // Adjust padding as needed
-                      child: Icon(
-                        Icons.email, // Icon for email input
-                        color:
-                            Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
-                        size: 25, // Size of the icon
+                const SizedBox(height: 50),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextFormField(
+                    controller: _telTextEditingController,
+                    keyboardType: TextInputType.phone,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
+                      labelText: 'Enter votre téléphone',
+                      hintText: '06xxxxxxxx',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.phone,
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          size: 25,
+                        ),
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez entrer votre téléphone';
+                      }
+                      if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                        return 'Veuillez entrer un numéro de téléphone valide';
+                      }
+                      return null;
+                    },
                   ),
                 ),
-              ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: _passwordTextEditingController,
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    filled: true,
-                    fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                    labelText: 'Enter votre password',
-                    hintText: 'password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.all(8), // Adjust padding as needed
-                      child: Icon(
-                        Icons.remove_red_eye, // Icon for email input
-                        color:
-                            Color.fromRGBO(5, 12, 79, 1.0), // Color of the icon
-                        size: 25, // Size of the icon
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextFormField(
+                    controller: _passwordTextEditingController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
+                      labelText: 'Enter votre password',
+                      hintText: 'password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.lock,
+                          color: Color.fromRGBO(5, 12, 79, 1.0),
+                          size: 25,
+                        ),
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Veuillez entrer votre password';
+                      }
+                      if (value.length < 8) {
+                        return 'Le mot de passe doit contenir au moins 8 caractères';
+                      }
+                      return null;
+                    },
                   ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/Home");
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color.fromRGBO(5, 12, 79, 1.0), // Background color
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 60, vertical: 15), // Button padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(30), // Button border radius
+                const SizedBox(height: 50),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      loginUser();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white), // Text color
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
