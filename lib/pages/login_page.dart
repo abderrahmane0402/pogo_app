@@ -1,12 +1,10 @@
 import 'dart:convert';
+import 'package:example_app/services/CartService.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import '../services/AuthenticationService.dart';
 import 'home.dart';
-import 'package:example_app/config/url.dart';
-import 'package:example_app/provider/AuthProvider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,8 +38,7 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   final storage = const FlutterSecureStorage();
   AuthService authService = AuthService();
-  // AuthProvider provider = AuthProvider(authService: AuthService);
-
+  CarteService carteService = CarteService();
 
   @override
   void initState() {
@@ -59,18 +56,11 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  @override
-
-
-
-
   void loginUser() async {
     var regBody = {
       "login": _telTextEditingController.text,
       "password": _passwordTextEditingController.text,
     };
-
-    print('Logging in user with data: $regBody');
 
     try {
       final response = await authService.login(regBody["login"]!, regBody["password"]!);
@@ -79,16 +69,13 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
       print('Response body: ${response?.body}');
 
       if (response != null && response.statusCode == 200) {
-
         var responseBody = jsonDecode(response.body);
-
         String token = responseBody['data']['token'];
-        var user = responseBody['data']['user'];
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Connexion réussie')),
-        );
-        Navigator.pushReplacementNamed(context, '/Home');
+        await storage.write(key: 'auth_token', value: token);
+
+        // Navigator.pushReplacementNamed(context, '/Home');
+        Navigator.pushNamedAndRemoveUntil(context, '/Home', (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Échec de la connexion: ${response?.body}')),
@@ -101,6 +88,9 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
       );
     }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {

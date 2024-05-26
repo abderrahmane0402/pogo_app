@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:example_app/services/AuthenticationService.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:example_app/config/url.dart';
@@ -24,6 +25,7 @@ class _RegisterState extends State<Register> {
   late TextEditingController _confirmPasswordTextEditingController;
 
   final _formKey = GlobalKey<FormState>();
+  AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -46,25 +48,21 @@ class _RegisterState extends State<Register> {
   }
 
   void registerUser() async {
-    var regBody = {
-      "nom": _nomTextEditingController.text,
-      "prenom": _prenomTextEditingController.text,
-      "telephone": _telTextEditingController.text,
-      "password": _passwordTextEditingController.text,
-      "confirmePassword": _confirmPasswordTextEditingController.text
-    };
+    var nom = _nomTextEditingController.text;
+    var prenom = _prenomTextEditingController.text;
+    var telephone = _telTextEditingController.text;
+    var password = _passwordTextEditingController.text;
+    var confirmePassword = _confirmPasswordTextEditingController.text;
 
-    print('Registering user with data: $regBody');
+    if (password != confirmePassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Les mots de passe ne correspondent pas')),
+      );
+      return;
+    }
 
     try {
-      var response = await http.post(
-        Uri.parse(register),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(regBody),
-      );
-
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      var response = await authService.register(nom, prenom, telephone, password, confirmePassword);
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -83,6 +81,7 @@ class _RegisterState extends State<Register> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

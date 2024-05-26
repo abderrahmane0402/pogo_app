@@ -18,42 +18,7 @@ class CarteBancaire extends StatefulWidget {
 
 class _CarteBancaireState extends State<CarteBancaire> {
   List<CarteBancaireModel> cartesBancaires = [
-    CarteBancaireModel(
-        cardNumber: "1234 5678 9012 3456", expirationDate: "12/25"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
-    CarteBancaireModel(
-        cardNumber: "9876 5432 1098 7654", expirationDate: "03/27"),
+    CarteBancaireModel(cardNumber: "1234 5678 9012 3456", expirationDate: "12/25"),
   ];
   @override
   Widget build(BuildContext context) {

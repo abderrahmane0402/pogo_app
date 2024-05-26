@@ -28,7 +28,7 @@ class _LayoutState extends State<Layout> {
 
   // Define your pages here
   final List<Widget> _pages = [
-    const Home(),
+    Home(),
     const Profile()
   ];
 

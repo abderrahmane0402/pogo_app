@@ -8,6 +8,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
+  Future<http.Response> register(String nom, String prenom, String telephone, String password, String confirmePassword) async {
+    try {
+      var regBody = {
+        'nom': nom,
+        'prenom': prenom,
+        'telephone': telephone,
+        'password': password,
+        'confirmePassword': confirmePassword
+      };
+
+      var response = await http.post(
+        Uri.parse(register_url),  // Replace with your actual URL
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(regBody),
+      );
+
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      return response;
+    } catch (e) {
+      print('Error: $e');
+      throw e;  // Re-throwing the error to be handled in the calling function
+    }
+  }
 
 
   Future<http.Response?> login(String tel, String password) async {
@@ -53,6 +78,7 @@ class AuthService {
     await prefs.remove('user_password');
 
     await storage.delete(key: 'auth_token');
+    await storage.delete(key: 'card');
     print('logged out!');
   }
 

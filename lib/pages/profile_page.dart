@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 class Profile extends StatefulWidget {
@@ -15,6 +16,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   AuthService authService = AuthService();
+  final storage = FlutterSecureStorage();
+
 
   // void logout_user() async {
   //   try {
@@ -101,8 +104,10 @@ class _ProfileState extends State<Profile> {
                       icon: Icons.logout_outlined,
                       title: "Déconnecter",
                       href: "/beforeLogin",
-                      onPressed: (){
+                      onPressed: () async {
                         authService.logout();
+                        final token = await storage.read(key: 'auth_token');
+                        print(token);
                       },
                     ),
 
