@@ -9,7 +9,7 @@ class CarteService {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
 
-  Future<void> addCard(String nomProprietaire, String numCarte, int cvv, String dateExperation, bool isdefault) async {
+  Future<void> addCard(String nomProprietaire, String numCarte, String cvv, String dateExperation, bool isdefault) async {
     try {
       // Retrieve the auth token from secure storage
       String? token = await storage.read(key: 'auth_token');
