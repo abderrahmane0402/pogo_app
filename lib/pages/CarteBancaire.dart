@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CarteBancaireModel {
   final int cardNumber;
   final String expirationDate;
-  final int cvv;
+  final String cvv;
   final String cartHolder;
   final bool isdefault;
   final String cardId;
