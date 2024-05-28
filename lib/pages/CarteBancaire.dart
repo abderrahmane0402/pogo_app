@@ -15,25 +15,25 @@ class CarteBancaireModel {
   final bool isdefault;
   final String cardId;
 
-  CarteBancaireModel({
-    required this.cardNumber,
-    required this.expirationDate,
-    required this.cartHolder,
-    required this.cvv,
-    required this.isdefault,
-    required this.cardId
-  });
+  CarteBancaireModel(
+      {required this.cardNumber,
+      required this.expirationDate,
+      required this.cartHolder,
+      required this.cvv,
+      required this.isdefault,
+      required this.cardId});
 
   factory CarteBancaireModel.fromJson(Map<String, dynamic> json) {
-    String formattedExpirationDate = DateFormat('MM/yy').format(DateTime.parse(json['dateExperation']));
+    String formattedExpirationDate =
+        DateFormat('MM/yy').format(DateTime.parse(json['dateExperation']));
     return CarteBancaireModel(
-      cardNumber: json['numCarte'],
-      expirationDate: formattedExpirationDate,
-      cartHolder: json['nomProprietaire'],
-      cvv: json['cvv'] ?? 0,
-      isdefault: json['isdefault'],
-      cardId:json['_id']// Provide a default value if cvv is null
-    );
+        cardNumber: json['numCarte'],
+        expirationDate: formattedExpirationDate,
+        cartHolder: json['nomProprietaire'],
+        cvv: json['cvv'] ?? 0,
+        isdefault: json['isdefault'],
+        cardId: json['_id'] // Provide a default value if cvv is null
+        );
   }
 }
 
@@ -48,7 +48,6 @@ class _CarteBancaireState extends State<CarteBancaire> {
   CarteService cartService = CarteService();
   final storage = const FlutterSecureStorage();
   // SharedPreferences prefs =  SharedPreferences.getInstance();
-
 
   List<CarteBancaireModel> cartesBancaires = [];
   bool isLoading = true;
@@ -75,8 +74,8 @@ class _CarteBancaireState extends State<CarteBancaire> {
               print(cartesJson);
               setState(() {
                 cartesBancaires = cartesJson
-                    .map((json) =>
-                    CarteBancaireModel.fromJson(json as Map<String, dynamic>))
+                    .map((json) => CarteBancaireModel.fromJson(
+                        json as Map<String, dynamic>))
                     .toList();
                 isLoading = false;
               });
@@ -108,12 +107,13 @@ class _CarteBancaireState extends State<CarteBancaire> {
       });
     }
   }
-  Future<void> deleteCarte(String idCarte) async{
-    try{
+
+  Future<void> deleteCarte(String idCarte) async {
+    try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? authToken = await storage.read(key: 'auth_token');
       await cartService.deleteCard(idCarte, authToken!);
-    }catch(e){
+    } catch (e) {
       print('Error deleting card: $e');
     }
   }
@@ -124,12 +124,13 @@ class _CarteBancaireState extends State<CarteBancaire> {
       String? authToken = await storage.read(key: 'auth_token');
       String? userId = prefs.getString('user_id');
 
-      final response = await cartService.changeDefaultCarte(userId!, carteId, authToken!);
-
+      final response =
+          await cartService.changeDefaultCarte(userId!, carteId, authToken!);
     } catch (e) {
       print('Error changing default card: $e');
     }
   }
+
   Future<void> _refresh() async {
     // Call fetchUserCards to reload data
     await fetchUserCards();
@@ -160,115 +161,121 @@ class _CarteBancaireState extends State<CarteBancaire> {
           isLoading
               ? const Center(child: CircularProgressIndicator())
               : Expanded(
-            child: RefreshIndicator(
-              onRefresh: _refresh,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: cartesBancaires.length,
-                        itemBuilder: (context, index) {
-                          return
-                            Stack(
-                              children: [
-                                CreditCardWidget(
-                                  padding: 10,
-                                  height: 170,
-                                  cardBgColor: const Color.fromRGBO(30, 157, 151, 1.0),
-                                  cardNumber: cartesBancaires[index].cardNumber.toString(),
-                                  expiryDate: cartesBancaires[index].expirationDate,
-                                  cardHolderName: cartesBancaires[index].cartHolder,
-                                  cvvCode: cartesBancaires[index].cvv.toString(),
-                                  obscureCardNumber: true,
-                                  obscureCardCvv: true,
-                                  isChipVisible: false,
-                                  bankName: "        ",
-                                  isHolderNameVisible: true,
-                                  isSwipeGestureEnabled: false,
-                                  onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {
-                                    // Handle card brand change if needed
-                                  },
-                                  customCardTypeIcons: <CustomCardTypeIcon>[
-                                    CustomCardTypeIcon(
-                                      cardType: CardType.mastercard,
-                                      cardImage: Image.asset(
-                                        'assets/images/mastercard.png',
-                                        height: 48,
-                                        width: 48,
-                                      ),
-                                    ),
-                                    CustomCardTypeIcon(
-                                      cardType: CardType.visa,
-                                      cardImage: Image.asset(
-                                        'assets/images/visa.png',
-                                        height: 48,
-                                        width: 48,
-                                      ),
-                                    ),
-                                  ],
-                                  showBackView: false,
-                                ),
-                                if (cartesBancaires[index].isdefault)
-                                  Positioned(
-                                    top: 1,
-                                    left: 10,
-                                    child: Icon(
-                                      Icons.bookmark,
-                                      color: Color.fromRGBO(5, 12, 75, 1.0),
-                                      size: 40, // Adjust the size as needed
-                                    ),
-                                  ),
-                                Positioned(
-                                    top: 4,
-                                    right: 10,child:
-                                Row(
+                  child: RefreshIndicator(
+                    onRefresh: _refresh,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: cartesBancaires.length,
+                              itemBuilder: (context, index) {
+                                return Stack(
                                   children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          deleteCarte(cartesBancaires[index].cardId);
-                                        },
-                                        icon: Icon(Icons.delete),
-                                        color: Colors.red[800],
-                                        iconSize: 30,
-                                      ),
+                                    CreditCardWidget(
+                                      padding: 10,
+                                      height: 170,
+                                      cardBgColor: const Color.fromRGBO(
+                                          30, 157, 151, 1.0),
+                                      cardNumber: cartesBancaires[index]
+                                          .cardNumber
+                                          .toString(),
+                                      expiryDate:
+                                          cartesBancaires[index].expirationDate,
+                                      cardHolderName:
+                                          cartesBancaires[index].cartHolder,
+                                      cvvCode:
+                                          cartesBancaires[index].cvv.toString(),
+                                      obscureCardNumber: true,
+                                      obscureCardCvv: true,
+                                      isChipVisible: false,
+                                      bankName: "        ",
+                                      isHolderNameVisible: true,
+                                      isSwipeGestureEnabled: false,
+                                      onCreditCardWidgetChange:
+                                          (CreditCardBrand creditCardBrand) {
+                                        // Handle card brand change if needed
+                                      },
+                                      customCardTypeIcons: <CustomCardTypeIcon>[
+                                        CustomCardTypeIcon(
+                                          cardType: CardType.mastercard,
+                                          cardImage: Image.asset(
+                                            'assets/images/mastercard.png',
+                                            height: 48,
+                                            width: 48,
+                                          ),
+                                        ),
+                                        CustomCardTypeIcon(
+                                          cardType: CardType.visa,
+                                          cardImage: Image.asset(
+                                            'assets/images/visa.png',
+                                            height: 48,
+                                            width: 48,
+                                          ),
+                                        ),
+                                      ],
+                                      showBackView: false,
                                     ),
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          changeDefault(cartesBancaires[index].cardId);
-                                        },
-                                        icon: Icon(Icons.bookmark_add),
-                                        color: Color.fromRGBO(5, 12, 75, 1.0),
-                                        iconSize: 30,
+                                    if (cartesBancaires[index].isdefault)
+                                      Positioned(
+                                        top: 1,
+                                        left: 10,
+                                        child: Icon(
+                                          Icons.bookmark,
+                                          color: Color.fromRGBO(5, 12, 75, 1.0),
+                                          size: 40, // Adjust the size as needed
+                                        ),
                                       ),
-                                    ),
+                                    Positioned(
+                                        top: 4,
+                                        right: 10,
+                                        child: Row(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  deleteCarte(
+                                                      cartesBancaires[index]
+                                                          .cardId);
+                                                  _refresh();
+                                                },
+                                                icon: Icon(Icons.delete),
+                                                color: Colors.red[800],
+                                                iconSize: 30,
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  changeDefault(
+                                                      cartesBancaires[index]
+                                                          .cardId);
+                                                },
+                                                icon: Icon(Icons.bookmark_add),
+                                                color: Color.fromRGBO(
+                                                    5, 12, 75, 1.0),
+                                                iconSize: 30,
+                                              ),
+                                            ),
+                                          ],
+                                        ))
                                   ],
-                                )
-                                )
-                              ],
-
-
-
-                            );
-
-                        },
-                      )
-
-
-                    ],
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
