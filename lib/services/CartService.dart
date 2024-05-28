@@ -78,6 +78,124 @@ class CarteService {
     }
   }
 
+  Future<Map<String, dynamic>?> getAllCards(String authToken) async {
+    try {
+      final response = await http.post(
+        Uri.parse(all_carts),
+        headers: {
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      // Log status code and response body for debugging
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      // Check if response.body is not null before returning it
+      // Check if the response is successful
+      if (response.statusCode == 201) {
+        Map<String, dynamic> responseData = {
+          'statusCode': response.statusCode,
+          'body': response.body,
+        };
+        return responseData;
+      } else {
+        print('Failed to fetch cards: ${response.statusCode}');
+        return null;
+      }
+        } catch (e) {
+      print('Error fetching cards: $e');
+      return null;
+    }
+  }
+
+
+  Future<void> changeDefaultCarte(String id, String carteID, String authToken) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$changeDefault/$carteID'),  // Include carteID in the URL
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+        body: jsonEncode(<String, String>{
+          'id': id,
+        }),
+      );
+
+      print('Request sent to: $changeDefault/$carteID');
+      print('Headers: ${{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      }}');
+      print('Body: ${jsonEncode(<String, String>{
+        'id': id,
+      })}');
+
+      if (id == null) {
+        print('id null');
+      } else if (carteID == null) {
+        print('carteID is null');
+      } else if (authToken == null) {
+        print('authToken is null');
+      } else {
+        print('All parameters are there');
+      }
+
+      if (response.statusCode == 201) {
+        print('Carte modifiée avec succès');
+      } else if (response.statusCode == 404) {
+        print('404 error');
+        try {
+          var responseBody = jsonDecode(response.body);
+          print('Error message: ${responseBody['message']}');
+        } catch (e) {
+          print('Error decoding response body: $e');
+          print('Response body: ${response.body}');
+        }
+      } else {
+        print('Erreur lors de la modification de la carte: ${response.reasonPhrase}');
+        try {
+          var responseBody = jsonDecode(response.body);
+          print('Response body: $responseBody');
+        } catch (e) {
+          print('Error decoding response body: $e');
+          print('Response body: ${response.body}');
+        }
+      }
+    } catch (error) {
+      print('Erreur lors de la modification de la carte: $error');
+    }
+  }
+
+
+  Future<void> deleteCard(String cardId, String authToken) async {
+    final String apiUrl = '$delete_card/$cardId';
+
+    try {
+      final http.Response response = await http.delete(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 201) {
+        // Card successfully deleted
+        print(responseData['message']);
+        // Perform any UI updates as needed
+      } else {
+        // Handle error response
+        print('Error: ${responseData['message']}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
 
 }

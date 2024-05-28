@@ -3,6 +3,7 @@ import 'package:example_app/services/CartService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/AuthenticationService.dart';
 import 'home.dart';
 
@@ -65,22 +66,36 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
     try {
       final response = await authService.login(regBody["login"]!, regBody["password"]!);
 
-      print('Response status: ${response?.statusCode}');
-      print('Response body: ${response?.body}');
+      if (response != null) {
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
 
-      if (response != null && response.statusCode == 200) {
-        var responseBody = jsonDecode(response.body);
-        String token = responseBody['data']['token'];
+        if (response.statusCode == 200) {
+          var responseBody = jsonDecode(response.body);
+          String token = responseBody['data']['token'];
+          Map<String, dynamic>? user = responseBody['data']['user'];
 
-        await storage.write(key: 'auth_token', value: token);
+          if (user != null) {
+            String userId = user['_id'] ?? ''; // Provide a default value if _id is null
+            String userNom = user['nom'] ?? ''; // Provide a default value if nom is null
+            String userPrenom = user['prenom'] ?? ''; // Provide a default value if prenom is null
+            String userTele = user['tele'] ?? ''; // Provide a default value if tele is null
 
-        // Navigator.pushReplacementNamed(context, '/Home');
-        Navigator.pushNamedAndRemoveUntil(context, '/Home', (route) => false);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Échec de la connexion: ${response?.body}')),
-        );
+            // Save user information in shared preferences
+            saveUserInfoToSharedPreferences(userId, userNom, userPrenom, userTele);
+            await storage.write(key: 'auth_token', value: token);
+
+            // Navigate to home screen
+            Navigator.pushNamedAndRemoveUntil(context, '/Home', (route) => false);
+
+          return; // Exit the function early if login is successful
+          }
+        }
       }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Échec de la connexion: ${response?.body}')),
+      );
     } catch (e) {
       print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -88,6 +103,15 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
       );
     }
   }
+
+  void saveUserInfoToSharedPreferences(String userId, String userNom, String userPrenom, String userTele) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_id', userId);
+    prefs.setString('user_nom', userNom);
+    prefs.setString('user_prenom', userPrenom);
+    prefs.setString('user_tele', userTele);
+  }
+
 
 
 
