@@ -12,9 +12,11 @@ class AddCarteBancaire extends StatefulWidget {
 }
 
 class _AddCarteBancaireState extends State<AddCarteBancaire> {
-  final TextEditingController nomProprietaireController = TextEditingController();
+  final TextEditingController nomProprietaireController =
+      TextEditingController();
   final TextEditingController numeroController = TextEditingController();
-  final TextEditingController dateExpirationController = TextEditingController();
+  final TextEditingController dateExpirationController =
+      TextEditingController();
   final TextEditingController cvvController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -67,16 +69,22 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                     cardHolderName: cardHolderName,
                     cvvCode: cvvCode,
                     bankName: 'Bank',
-                    frontCardBorder: useGlassMorphism ? null : Border.all(color: Colors.grey),
-                    backCardBorder: useGlassMorphism ? null : Border.all(color: Colors.grey),
+                    frontCardBorder: useGlassMorphism
+                        ? null
+                        : Border.all(color: Colors.grey),
+                    backCardBorder: useGlassMorphism
+                        ? null
+                        : Border.all(color: Colors.grey),
                     showBackView: isCvvFocused,
                     obscureCardNumber: true,
                     obscureCardCvv: true,
                     isHolderNameVisible: true,
                     cardBgColor: const Color.fromRGBO(30, 157, 151, 1.0),
-                    backgroundImage: useBackgroundImage ? 'assets/images/card.png' : null,
+                    backgroundImage:
+                        useBackgroundImage ? 'assets/images/card.png' : null,
                     isSwipeGestureEnabled: true,
-                    onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+                    onCreditCardWidgetChange:
+                        (CreditCardBrand creditCardBrand) {},
                     customCardTypeIcons: <CustomCardTypeIcon>[
                       CustomCardTypeIcon(
                         cardType: CardType.mastercard,
@@ -142,7 +150,8 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                                   value: isDefault,
                                   inactiveTrackColor: Colors.grey,
                                   activeColor: Colors.white,
-                                  activeTrackColor: const Color.fromRGBO(5, 12, 79, 1.0),
+                                  activeTrackColor:
+                                      const Color.fromRGBO(5, 12, 79, 1.0),
                                   onChanged: (bool value) => setState(() {
                                     isDefault = value;
                                   }),
@@ -201,8 +210,9 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
   void _onValidate() {
     if (formKey.currentState?.validate() ?? false) {
       print('valid!');
-      carteService.addCard(cardHolderName, cardNumber, cvvCode, expiryDate, isDefault);
-      Navigator.pushNamed(context, '/carteBancaire');
+      carteService.addCard(
+          cardHolderName, cardNumber, cvvCode, expiryDate, isDefault);
+      Navigator.pop(context);
     } else {
       print('invalid!');
     }
