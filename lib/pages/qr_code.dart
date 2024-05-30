@@ -40,6 +40,7 @@ class QRCodeGeneratorPage extends StatefulWidget {
 class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
   final storage = const FlutterSecureStorage();
   CarteService carteService = CarteService();
+  AuthService authService = AuthService();
   late Map<String, String?> _qrData = {};
   bool _isLoading = false;
 
@@ -58,16 +59,9 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
         _isLoading = true;
       });
 
-      // Assuming CarteService and AuthService classes exist
-      CarteService carteService = CarteService();
-      AuthService authService = AuthService();
-
       String? authToken = await authService.getToken();
 
-
-
       var defaultCardResponse = await carteService.getDefaultCard(authToken!);
-      print("Default card response: $defaultCardResponse");
 
       if (defaultCardResponse != null && defaultCardResponse['statusCode'] == 201) {
         var defaultCardData = jsonDecode(defaultCardResponse['body']);
@@ -92,7 +86,6 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
               _isLoading = false;
             });
 
-            // Proceed to the QR code generation page here if needed
           } else {
             setState(() {
               _isLoading = false;
@@ -111,7 +104,7 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
           return; // Exit the function early
         }
       } else {
-        // Handle case when defaultCardResponse is null or status code is not 201
+        // Handle case when defaultCardResponse is null or  code is not 201
         print('Failed to get default card data');
         showErrorDialog('Failed to get default card data.');
         setState(() {

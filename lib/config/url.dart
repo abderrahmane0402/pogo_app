@@ -6,4 +6,5 @@ final default_cart = url + "user/defaultCarte";
 
 final all_carts = url + "user/allCarte";
 final changeDefault = url +"user/changeDefaultCarte";
-final delete_card = url + "user//deleteCarte";
+final delete_card = url + "user/deleteCarte";
+final getUserCarte_ = url+"user/getUserCarte";

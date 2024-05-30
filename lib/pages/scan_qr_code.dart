@@ -1,5 +1,5 @@
 import 'package:example_app/pages/qr_code.dart';
-import 'package:example_app/pages/result_qr_code.dart';
+import 'package:example_app/pages/paiement_input_page.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 // import 'package:qr_scanner_app/qr_result.dart';
@@ -62,9 +62,8 @@ class _QRScannerState extends State<QRScanner> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return QRResult(
-                                code: code,
-                                closeScreen: closeScreen,
+                              return PaymentInputPage(
+                                closeScreen: closeScreen, qrData: code,
                               );
                             },
                           ),

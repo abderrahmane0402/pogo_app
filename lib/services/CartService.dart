@@ -198,5 +198,39 @@ class CarteService {
     }
   }
 
+  Future<Map<String, dynamic>?> getUserCarte(String userId, String carteId) async {
+    // Define your API endpoint URL
+     String apiUrl = getUserCarte_;
+
+    // Create the request body
+    final Map<String, dynamic> requestBody = {
+      'id_user': userId,
+      'id_carte': carteId,
+    };
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        body: jsonEncode(requestBody),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // If the response is successful, decode the JSON and return it
+        return jsonDecode(response.body);
+      } else {
+        // If the response status code is not 200, throw an exception with the error message
+        throw Exception('Failed to get user carte: ${response.body}');
+      }
+    } catch (e) {
+      // If an exception occurs during the HTTP request,
+      // return null to indicate failure
+      print('Failed to get user carte: $e');
+      return null;
+    }
+  }
+
 
 }

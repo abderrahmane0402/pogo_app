@@ -126,15 +126,14 @@ class _CarteBancaireState extends State<CarteBancaire> {
       String? authToken = await storage.read(key: 'auth_token');
       String? userId = prefs.getString('user_id');
 
-      final response =
-          await cartService.changeDefaultCarte(userId!, carteId, authToken!);
+      final response = await cartService.changeDefaultCarte(userId!, carteId, authToken!);
+      _refresh();
     } catch (e) {
       print('Error changing default card: $e');
     }
   }
 
   Future<void> _refresh() async {
-    // Call fetchUserCards to reload data
     await fetchUserCards();
   }
 
