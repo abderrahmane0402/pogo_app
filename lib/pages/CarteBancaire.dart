@@ -56,6 +56,7 @@ class _CarteBancaireState extends State<CarteBancaire> {
   void initState() {
     super.initState();
     fetchUserCards();
+    _refresh();
   }
 
   Future<void> fetchUserCards() async {
@@ -113,6 +114,7 @@ class _CarteBancaireState extends State<CarteBancaire> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? authToken = await storage.read(key: 'auth_token');
       await cartService.deleteCard(idCarte, authToken!);
+      _refresh();
     } catch (e) {
       print('Error deleting card: $e');
     }
