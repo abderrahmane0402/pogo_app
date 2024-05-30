@@ -239,11 +239,11 @@ class _CarteBancaireState extends State<CarteBancaire> {
                                             Align(
                                               alignment: Alignment.topLeft,
                                               child: IconButton(
-                                                onPressed: () {
-                                                  deleteCarte(
+                                                onPressed: () async {
+                                                  await deleteCarte(
                                                       cartesBancaires[index]
                                                           .cardId);
-                                                  _refresh();
+                                                  await _refresh();
                                                 },
                                                 icon: Icon(Icons.delete),
                                                 color: Colors.red[800],
@@ -253,10 +253,11 @@ class _CarteBancaireState extends State<CarteBancaire> {
                                             Align(
                                               alignment: Alignment.topLeft,
                                               child: IconButton(
-                                                onPressed: () {
-                                                  changeDefault(
+                                                onPressed: () async {
+                                                  await changeDefault(
                                                       cartesBancaires[index]
                                                           .cardId);
+                                                  await _refresh();
                                                 },
                                                 icon: Icon(Icons.bookmark_add),
                                                 color: Color.fromRGBO(
@@ -281,7 +282,10 @@ class _CarteBancaireState extends State<CarteBancaire> {
       floatingActionButton: FloatingActionButton.extended(
         // Floating action button for adding new cards
         onPressed: () {
-          Navigator.pushNamed(context, '/addCarte');
+          Navigator.pushNamed(context, '/addCarte')
+              .then((value) => setState(() async {
+                    await _refresh();
+                  }));
         },
         icon: const Icon(Icons.add),
         label: const Text("Ajouter une carte"),

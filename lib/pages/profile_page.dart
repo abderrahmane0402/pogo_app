@@ -5,10 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
-
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -17,7 +15,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   AuthService authService = AuthService();
   final storage = FlutterSecureStorage();
-
 
   // void logout_user() async {
   //   try {
@@ -32,94 +29,92 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-    appBar: AppBar(
-    backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-    title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
-    centerTitle: true,
-    ),
-    body: SizedBox(
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const Text(
-            "Votre Profile",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Card(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(100))),
-            elevation: 20,
-            child: CircleAvatar(
-              radius: 65,
-              backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
-              child: CircleAvatar(
-                radius: 60,
-                child: Image.asset('assets/images/home.png'),
-              ),
-            ),
-          ),
-          const Text("zakia ouajih",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 20),
-          Expanded(
-            child: SizedBox(
-              width: double.infinity,
-              child: Card(
-                elevation: 0,
-                clipBehavior: Clip.antiAlias,
-                margin: const EdgeInsets.all(0),
-                color: const Color.fromRGBO(63, 207, 173, 1),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: ListView(
-                  children:  [
-                    const MenuItem(
-                      icon: Icons.person_3_outlined,
-                      title: "information personnels",
-                      href: "/infoPersonnels",
-                    ),
-                    const MenuItem(
-                      icon: Icons.payment_outlined,
-                      title: "vos carte bancaire",
-                      href: "/carteBancaire",
-                    ),
-                    const MenuItem(
-                      icon: Icons.notifications_outlined,
-                      title: "les notifications",
-                      href: "",
-                    ),
-                    const MenuItem(
-                      icon: Icons.history_rounded,
-                      title: "historique d'activite",
-                      href: "",
-                    ),
-                    MenuItem(
-                      icon: Icons.logout_outlined,
-                      title: "Déconnecter",
-                      href: "/beforeLogin",
-                      onPressed: () async {
-                        authService.logout();
-                        final token = await storage.read(key: 'auth_token');
-                        print(token);
-                      },
-                    ),
-
-
-                  ],
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+          title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+          centerTitle: true,
+        ),
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Text(
+                "Votre Profile",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
-          )
-        ],
-      ),)
-    );
+              const SizedBox(height: 10),
+              Card(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(100))),
+                elevation: 20,
+                child: CircleAvatar(
+                  radius: 65,
+                  backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
+                  child: CircleAvatar(
+                    radius: 60,
+                    child: Image.asset('assets/images/home.png'),
+                  ),
+                ),
+              ),
+              const Text("zakia ouajih",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 20),
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Card(
+                    elevation: 0,
+                    clipBehavior: Clip.antiAlias,
+                    margin: const EdgeInsets.all(0),
+                    color: const Color.fromRGBO(63, 207, 173, 1),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))),
+                    child: ListView(
+                      children: [
+                        const MenuItem(
+                          icon: Icons.person_3_outlined,
+                          title: "information personnels",
+                          href: "/infoPersonnels",
+                        ),
+                        const MenuItem(
+                          icon: Icons.payment_outlined,
+                          title: "vos carte bancaire",
+                          href: "/carteBancaire",
+                        ),
+                        const MenuItem(
+                          icon: Icons.notifications_outlined,
+                          title: "les notifications",
+                          href: "",
+                        ),
+                        const MenuItem(
+                          icon: Icons.history_rounded,
+                          title: "historique d'activite",
+                          href: "",
+                        ),
+                        MenuItem(
+                          icon: Icons.logout_outlined,
+                          title: "Déconnecter",
+                          href: "/beforeLogin",
+                          onPressed: () async {
+                            authService.logout();
+                            final token = await storage.read(key: 'auth_token');
+                            print(token);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
 
@@ -129,8 +124,11 @@ class MenuItem extends StatelessWidget {
   final String href;
   final VoidCallback? onPressed;
   const MenuItem(
-      {super.key, required this.icon, required this.title, required this.href,this.onPressed}
-      );
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.href,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
