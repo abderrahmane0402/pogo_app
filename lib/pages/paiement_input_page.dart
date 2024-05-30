@@ -21,24 +21,38 @@ class PaymentInputPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Scanned QR Code Data:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
-            Text(qrData),
+            // Text('Entrer le montant a payer'),
+            SizedBox(height: 20.0),
+            // Text(qrData),
             SizedBox(height: 16.0),
             TextField(
               controller: amountController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                filled: true,
+                fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
                 labelText: 'Enter amount to pay',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                prefixIcon: const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Icon(
+                    Icons.money,
+                    color: Color.fromRGBO(5, 12, 79, 1.0),
+                    size: 25,
+                  ),
+                ),
+
+
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 30.0),
             ElevatedButton(
               onPressed: () {
                 String amount = amountController.text;

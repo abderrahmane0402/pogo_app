@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'AddCarte.dart';
 import 'CarteBancaire.dart';
