@@ -84,6 +84,7 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
             // Save user information in shared preferences
             saveUserInfoToSharedPreferences(userId, userNom, userPrenom, userTele);
             await storage.write(key: 'auth_token', value: token);
+            await storage.write(key: 'user_tel', value: userTele);
 
             // Navigate to home screen
             Navigator.pushNamedAndRemoveUntil(context, '/Home', (route) => false);

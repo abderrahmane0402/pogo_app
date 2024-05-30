@@ -1,6 +1,5 @@
 import 'package:example_app/pages/paiement.dart';
 import 'package:flutter/material.dart';
- // Import the Confirmation Page
 
 class PaymentInputPage extends StatelessWidget {
   final String qrData;

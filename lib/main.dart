@@ -17,7 +17,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChannels.lifecycle.setMessageHandler((msg) {
     if (msg == AppLifecycleState.paused.toString()) {
-      authService.logout();
+      // authService.logout();
     }
     return Future.value(null);
   });
