@@ -202,7 +202,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
     if (formKey.currentState?.validate() ?? false) {
       print('valid!');
       carteService.addCard(cardHolderName, cardNumber, cvvCode, expiryDate, isDefault);
-      Navigator.pushNamed(context, '/Home');
+      Navigator.pushNamed(context, '/carteBancaire');
     } else {
       print('invalid!');
     }

@@ -56,6 +56,7 @@ class _CarteBancaireState extends State<CarteBancaire> {
   void initState() {
     super.initState();
     fetchUserCards();
+    _refresh();
   }
 
   Future<void> fetchUserCards() async {

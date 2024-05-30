@@ -26,9 +26,7 @@ class QRResult extends StatelessWidget {
         padding: const EdgeInsets.all(60),
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50,),
             QrImageView(
               data: "",
               size: 250,

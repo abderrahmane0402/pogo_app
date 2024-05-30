@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:example_app/pages/paiement.dart';
 import 'package:example_app/pages/profile_page.dart';
 import 'package:example_app/pages/qr_code.dart';
+import 'package:example_app/pages/scan_qr_code.dart';
 import 'package:example_app/services/CartService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -48,8 +49,6 @@ class _HomeState extends State<Home> {
       var defaultCardResponse = await carteService.getDefaultCard(authToken!);
 
       if (defaultCardResponse != null) {
-        // print('Default Card Response status: ${jsonEncode(defaultCardResponse['statusCode'])}');
-        // print('Default Card Response body: ${defaultCardResponse['body']}');
         if (defaultCardResponse['statusCode'] == 201) {
           var defaultCardData = jsonDecode(defaultCardResponse['body']);
           var defaultCard = defaultCardData['carte'];
@@ -97,9 +96,9 @@ class _HomeState extends State<Home> {
     } catch (e) {
       print('Error fetching default card: $e');
       if (mounted) { // Check if the widget is still mounted
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Une erreur s\'est produite lors de la récupération de la carte par défaut: $e')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text('Une erreur s\'est produite lors de la récupération de la carte par défaut: $e')),
+        // );
       }
     }
   }
@@ -232,7 +231,7 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const Paiement()),
+                                MaterialPageRoute(builder: (context) => const QRScanner()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
