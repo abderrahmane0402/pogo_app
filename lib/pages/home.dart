@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:example_app/pages/history_page.dart';
 import 'package:example_app/pages/paiement.dart';
 import 'package:example_app/pages/profile_page.dart';
 import 'package:example_app/pages/qr_code.dart';
@@ -291,7 +292,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/history');
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               elevation: 0,

@@ -1,6 +1,7 @@
 import 'package:example_app/pages/AddCarte.dart';
 import 'package:example_app/pages/CarteBancaire.dart';
 import 'package:example_app/pages/Verifier_phone.dart';
+import 'package:example_app/pages/history_page.dart';
 import 'package:example_app/pages/home.dart';
 import 'package:example_app/pages/info_personnel.dart';
 import 'package:example_app/pages/register1_page.dart';
@@ -17,7 +18,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChannels.lifecycle.setMessageHandler((msg) {
     if (msg == AppLifecycleState.paused.toString()) {
-      authService.logout();
+      // authService.logout();
     }
     return Future.value(null);
   });
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
         '/verifier_phone': (context) => const VerifierPhone(),
         '/infoPersonnels': (context) => const InfoPersonnel(),
         '/carteBancaire':(context) => const CarteBancaire(),
-        '/addCarte':(context) => const AddCarteBancaire()
+        '/addCarte':(context) => const AddCarteBancaire(),
+        '/history':(context) => History()
       },
     );
   }

@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:example_app/services/CartService.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Paiement extends StatefulWidget {
   final String qrData;
@@ -19,27 +23,35 @@ class Paiement extends StatefulWidget {
 
 class _PaiementState extends State<Paiement> {
   late final Map<String, dynamic> qrData;
+  String? sender_tel ;
   late final String amount;
   final TextEditingController _payTextEditingController =
       TextEditingController();
   late Future<Map<String, dynamic>?> _userDataFuture;
   CarteService carteService = CarteService();
+  final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
     qrData = jsonDecode(widget.qrData);
     amount = widget.amount;
-    getUserCard(qrData);
+    _userDataFuture = getUserCard(qrData);
   }
 
   void getUserCard(Map<String, dynamic> qrData) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      sender_tel = prefs.getString('user_tele') as String;
+
+      // prefs.getInt(key)
+      print(sender_tel);
       String userId = qrData['user_id'];
       String cardId = qrData['card_id'];
 
       // Call your API function to get user card
-      _userDataFuture = carteService.getUserCarte(userId, cardId);
+      return await carteService.getUserCarte(userId, cardId);
+
     } catch (error) {
       // Handle error, e.g., display error message
       print('Erreur lors de la récupération de la carte utilisateur: $error');
@@ -242,3 +254,5 @@ class _PaiementState extends State<Paiement> {
     super.dispose();
   }
 }
+
+
