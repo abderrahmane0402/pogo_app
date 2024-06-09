@@ -293,11 +293,7 @@ class _HomeState extends State<Home> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>  History()),
-                              );
+                              Navigator.pushNamed(context, '/history');
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
