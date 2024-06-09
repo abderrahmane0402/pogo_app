@@ -2,10 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:example_app/services/CartService.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Paiement extends StatefulWidget {
   final String qrData;
@@ -23,141 +19,220 @@ class Paiement extends StatefulWidget {
 
 class _PaiementState extends State<Paiement> {
   late final Map<String, dynamic> qrData;
-  String? sender_tel ;
   late final String amount;
-  final TextEditingController _payTextEditingController = TextEditingController();
+  final TextEditingController _payTextEditingController =
+      TextEditingController();
   late Future<Map<String, dynamic>?> _userDataFuture;
   CarteService carteService = CarteService();
-  final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
     qrData = jsonDecode(widget.qrData);
     amount = widget.amount;
-    _userDataFuture = getUserCard(qrData);
+    getUserCard(qrData);
   }
-  Future<Map<String, dynamic>?> getUserCard(Map<String, dynamic> qrData) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      sender_tel = prefs.getString('user_tele') as String;
 
-      // prefs.getInt(key)
-      print(sender_tel);
+  void getUserCard(Map<String, dynamic> qrData) async {
+    try {
       String userId = qrData['user_id'];
       String cardId = qrData['card_id'];
 
       // Call your API function to get user card
-      return await carteService.getUserCarte(userId, cardId);
-
+      _userDataFuture = carteService.getUserCarte(userId, cardId);
     } catch (error) {
       // Handle error, e.g., display error message
-      print('Error fetching user card: $error');
-      return null; // or throw an error if necessary
+      print('Erreur lors de la récupération de la carte utilisateur: $error');
     }
   }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-        title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Confirmation',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
       ),
-      body: Center(
-        child: FutureBuilder<Map<String, dynamic>?>(
-          future: _userDataFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-              return Text('Error fetching data');
-            } else {
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FutureBuilder<Map<String, dynamic>?>(
+              future: _userDataFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Erreur: ${snapshot.error}'));
+                } else {
+                  final userData = snapshot.data!['user'];
+                  final carteData = snapshot.data!['carte'];
+                  final String senderName = "zakia ouajih";
+                  final String receiverName = "abderrahmane sabkari";
 
-
-              // Data fetched successfully
-              final userData = snapshot.data!['user'];
-              final carteData = snapshot.data!['carte'];
-              final transferFrom = sender_tel;
-
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Confirmation',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 8),
-
-                        SizedBox(height: 16),
-                        buildInfoRow('Transfer from:', transferFrom!),
-
-                        SizedBox(height: 8),
-                        buildInfoRow('Transfer to:', userData['telephone'].toString()),
-                        SizedBox(height: 8),
-                        buildInfoRow('Amount', "DH $amount"),
-                        SizedBox(height: 8),
-                        buildInfoRow('Fee', "DH 0.1"),
-                        SizedBox(height: 8),
-                        buildInfoRow('Total amount', "DH ${(double.parse(amount) + 0.1).toStringAsFixed(2)}"),
-                        SizedBox(height: 24),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Handle the confirm button press
-                            },
-                            child: Text('Confirm'),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.blue, // text color
-                              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Veuillez confirmer la transaction suivante :',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 16),
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Transfert de:',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  '$senderName',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  'Transfert a:',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  '$receiverName',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Divider(),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Montant',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                '$amount DH',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Frais',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                '6 DH',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Montant total',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                '126 DH',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  );
+                }
+              },
+            ),
+            Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                // Logique de confirmation de paiement
+                print('Paiement confirmé');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, // couleur de fond
+                foregroundColor: Colors.white, // couleur du texte
+                padding: EdgeInsets.symmetric(vertical: 16),
+                textStyle: TextStyle(fontSize: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-              );
-            }
-          },
+              ),
+              child: Text('Confirmer'),
+            ),
+          ],
         ),
       ),
-    );
-  }
-  Widget buildInfoRow(String label, String value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        ),
-        Text(
-          value,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ],
     );
   }
 
@@ -167,5 +242,3 @@ class _PaiementState extends State<Paiement> {
     super.dispose();
   }
 }
-
-
