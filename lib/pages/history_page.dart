@@ -7,37 +7,41 @@ void main() {
 class History extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-      appBar: AppBar(
+    return MaterialApp(
+      home: Scaffold(
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
-        title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
-        centerTitle: true,
-      ),
-      body: ListView.builder(
-        itemCount: 10, // Replace with actual count of history items
-        itemBuilder: (BuildContext context, int index) {
-          return HistoryItemCard(
-            index: index,
-            name: 'zakia',
-            status: 'completed',
-            amount: '100',
-          );
-        },
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+          title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
+          centerTitle: true,
+        ),
+        body: ListView(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          children: [
+            HistoryItemCard(
+              name: 'Zakia',
+              status: 'Completed',
+              amount: '100',
+            ),
+            HistoryItemCard(
+              name: 'John Doe',
+              status: 'Pending',
+              amount: '200',
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class HistoryItemCard extends StatelessWidget {
-  final int index;
   final String name;
   final String status;
   final String amount;
 
   const HistoryItemCard({
     Key? key,
-    required this.index,
     required this.name,
     required this.status,
     required this.amount,
@@ -56,12 +60,12 @@ class HistoryItemCard extends StatelessWidget {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Name: $name' , style: TextStyle(color: Colors.white),),
+                  Text('Name: $name', style: TextStyle(color: Colors.white)),
                   Text(
                     'Status: $status',
-                    style: TextStyle(fontSize: 12,  color: Colors.white),
+                    style: TextStyle(fontSize: 12, color: Colors.white),
                   ),
-                  Text('amount : $amount', style: TextStyle(fontSize: 12, color: Colors.white),),
+                  Text('Amount: $amount', style: TextStyle(fontSize: 12, color: Colors.white)),
                 ],
               ),
             ),
@@ -75,17 +79,14 @@ class HistoryItemCard extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('info transaction'),
+                        title: Text('Transaction Details'),
                         content: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Transaction ID: 12345'),
-                            // Text('sent'),
-                            Text('Name: John Doe'),
-                            Text('received: zakia'),
-                            Text('Amount: \$100'),
-                            Text('Date: 2023-03-12'),
+                            Text('Name: $name'),
+                            Text('Status: $status'),
+                            Text('Amount: $amount'),
                             // Add more Text widgets for additional items
                           ],
                         ),
@@ -117,4 +118,3 @@ class HistoryItemCard extends StatelessWidget {
     );
   }
 }
-
