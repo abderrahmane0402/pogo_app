@@ -20,7 +20,8 @@ class Paiement extends StatefulWidget {
 class _PaiementState extends State<Paiement> {
   late final Map<String, dynamic> qrData;
   late final String amount;
-  final TextEditingController _payTextEditingController = TextEditingController();
+  final TextEditingController _payTextEditingController =
+      TextEditingController();
   late Future<Map<String, dynamic>?> _userDataFuture;
   CarteService carteService = CarteService();
 
@@ -31,6 +32,7 @@ class _PaiementState extends State<Paiement> {
     amount = widget.amount;
     getUserCard(qrData);
   }
+
   void getUserCard(Map<String, dynamic> qrData) async {
     try {
       String userId = qrData['user_id'];
@@ -44,10 +46,6 @@ class _PaiementState extends State<Paiement> {
     }
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,36 +56,32 @@ class _PaiementState extends State<Paiement> {
         centerTitle: true,
       ),
       body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Display QR code data
-                FutureBuilder<Map<String, dynamic>?>(
-                  future: _userDataFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      // Data fetched successfully
-                      final userData = snapshot.data!['user'];
-                      final carteData = snapshot.data!['carte'];
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Display QR code data
+          FutureBuilder<Map<String, dynamic>?>(
+            future: _userDataFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Data fetched successfully
+                final userData = snapshot.data!['user'];
+                final carteData = snapshot.data!['carte'];
 
-                      return Column(
-                        children: [
-                          Text('User: $userData'),
-                          Text('Carte: $carteData'),
-                        ],
-                      );
-                    }
-                  },
-                ),
-              ],
-
-
-
+                return Column(
+                  children: [
+                    Text('User: $userData'),
+                    Text('Carte: $carteData'),
+                  ],
+                );
+              }
+            },
+          ),
+        ],
       ),
-
     );
   }
 
