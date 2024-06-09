@@ -19,8 +19,9 @@ class History extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return HistoryItemCard(
             index: index,
-            historyItem: 'History Item $index',
-            specificDetails: 'Specific Details for Item $index',
+            name: 'zakia',
+            status: 'completed',
+            amount: '100',
           );
         },
       ),
@@ -30,28 +31,39 @@ class History extends StatelessWidget {
 
 class HistoryItemCard extends StatelessWidget {
   final int index;
-  final String historyItem;
-  final String specificDetails;
+  final String name;
+  final String status;
+  final String amount;
 
   const HistoryItemCard({
-    Key key = const Key('history_item_card'),
+    Key? key,
     required this.index,
-    required this.historyItem,
-    required this.specificDetails,
+    required this.name,
+    required this.status,
+    required this.amount,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      color: Color.fromRGBO(30, 157, 151, 1.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: ListTile(
-              title: Text(historyItem),
-              subtitle: Text(specificDetails, style: TextStyle(fontSize: 12),),
-              // date:Text('2023/03/12'),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Name: $name' , style: TextStyle(color: Colors.white),),
+                  Text(
+                    'Status: $status',
+                    style: TextStyle(fontSize: 12,  color: Colors.white),
+                  ),
+                  Text('amount : $amount', style: TextStyle(fontSize: 12, color: Colors.white),),
+                ],
+              ),
             ),
           ),
           ButtonBar(
@@ -63,8 +75,20 @@ class HistoryItemCard extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Button Clicked'),
-                        content: Text('Button in card $index clicked!'),
+                        title: Text('info transaction'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Transaction ID: 12345'),
+                            // Text('sent'),
+                            Text('Name: John Doe'),
+                            Text('received: zakia'),
+                            Text('Amount: \$100'),
+                            Text('Date: 2023-03-12'),
+                            // Add more Text widgets for additional items
+                          ],
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -84,7 +108,7 @@ class HistoryItemCard extends StatelessWidget {
                     },
                   ),
                 ),
-                child: Text('Voir details', style: TextStyle(color: Colors.white),),
+                child: Text('Voir details', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -93,3 +117,4 @@ class HistoryItemCard extends StatelessWidget {
     );
   }
 }
+
