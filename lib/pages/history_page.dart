@@ -7,8 +7,7 @@ void main() {
 class History extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
@@ -30,7 +29,7 @@ class History extends StatelessWidget {
             ),
           ],
         ),
-      ),
+
     );
   }
 }
