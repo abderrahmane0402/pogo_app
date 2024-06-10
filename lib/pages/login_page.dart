@@ -72,24 +72,12 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
 
         if (response.statusCode == 200) {
           var responseBody = jsonDecode(response.body);
-          String token = responseBody['data']['token'];
           Map<String, dynamic>? user = responseBody['data']['user'];
 
           if (user != null) {
-            String userId = user['_id'] ?? ''; // Provide a default value if _id is null
-            String userNom = user['nom'] ?? ''; // Provide a default value if nom is null
-            String userPrenom = user['prenom'] ?? ''; // Provide a default value if prenom is null
-            String userTele = user['tele'] ?? ''; // Provide a default value if tele is null
-
-            // Save user information in shared preferences
-            saveUserInfoToSharedPreferences(userId, userNom, userPrenom, userTele);
-            await storage.write(key: 'auth_token', value: token);
-            await storage.write(key: 'user_tel', value: userTele);
-
-            // Navigate to home screen
             Navigator.pushNamedAndRemoveUntil(context, '/Home', (route) => false);
 
-          return; // Exit the function early if login is successful
+          return;
           }
         }
       }

@@ -49,18 +49,10 @@ class _PaiementState extends State<Paiement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          'Confirmation',
-          style: TextStyle(color: Colors.black),
-        ),
+        backgroundColor: const Color.fromRGBO(223, 245, 241, 1.0),
+        title: Image.asset('assets/images/pogo.png', width: 120, height: 60),
         centerTitle: true,
       ),
       body: Padding(
@@ -83,6 +75,7 @@ class _PaiementState extends State<Paiement> {
                   final String receiverName = "abderrahmane sabkari";
 
                   return Card(
+                    color: Color.fromRGBO(30, 157, 151, 1.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -96,7 +89,7 @@ class _PaiementState extends State<Paiement> {
                             'Veuillez confirmer la transaction suivante :',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.grey[600],
+                              color: Colors.white,
                             ),
                           ),
                           SizedBox(height: 16),
@@ -113,6 +106,7 @@ class _PaiementState extends State<Paiement> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+                                    color: Colors.white
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -120,7 +114,7 @@ class _PaiementState extends State<Paiement> {
                                   '$senderName',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                 ),
                                 SizedBox(height: 16),
@@ -129,6 +123,7 @@ class _PaiementState extends State<Paiement> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+                                      color: Colors.white
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -136,7 +131,7 @@ class _PaiementState extends State<Paiement> {
                                   '$receiverName',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ],
@@ -152,14 +147,14 @@ class _PaiementState extends State<Paiement> {
                                 'Montant',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                    color: Colors.white
                                 ),
                               ),
                               Text(
                                 '$amount DH',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                    color: Colors.white
                                 ),
                               ),
                             ],
@@ -172,14 +167,14 @@ class _PaiementState extends State<Paiement> {
                                 'Frais',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                    color: Colors.white
                                 ),
                               ),
                               Text(
                                 '6 DH',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                    color: Colors.white
                                 ),
                               ),
                             ],
@@ -193,7 +188,7 @@ class _PaiementState extends State<Paiement> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                    color: Colors.white
                                 ),
                               ),
                               Text(
@@ -201,7 +196,7 @@ class _PaiementState extends State<Paiement> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                    color: Colors.white
                                 ),
                               ),
                             ],
@@ -220,7 +215,7 @@ class _PaiementState extends State<Paiement> {
                 print('Paiement confirmé');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, // couleur de fond
+                backgroundColor: Color.fromRGBO(5, 12, 75, 1.0), // couleur de fond
                 foregroundColor: Colors.white, // couleur du texte
                 padding: EdgeInsets.symmetric(vertical: 16),
                 textStyle: TextStyle(fontSize: 18),

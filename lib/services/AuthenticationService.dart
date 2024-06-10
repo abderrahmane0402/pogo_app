@@ -60,6 +60,7 @@ class AuthService {
         await prefs.setString('user_prenom', user['prenom']);
         await prefs.setString('user_telephone', user['telephone'].toString());
         await prefs.setString('user_password', user['password']);
+        await prefs.setString('user_id', user['_id']);
         return response;
       }
     } catch (e) {

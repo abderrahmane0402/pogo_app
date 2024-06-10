@@ -19,12 +19,12 @@ class History extends StatelessWidget {
           children: [
             HistoryItemCard(
               name: 'Zakia',
-              status: 'Completed',
+              status: 'Complete',
               amount: '100',
             ),
             HistoryItemCard(
               name: 'John Doe',
-              status: 'Pending',
+              status: 'en cours',
               amount: '200',
             ),
           ],
@@ -59,12 +59,12 @@ class HistoryItemCard extends StatelessWidget {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Name: $name', style: TextStyle(color: Colors.white)),
+                  Text('Name: $name', style: TextStyle(color: Colors.white, fontSize: 12)),
                   Text(
                     'Status: $status',
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 10, color: Colors.white),
                   ),
-                  Text('Amount: $amount', style: TextStyle(fontSize: 12, color: Colors.white)),
+                  Text('Amount: $amount', style: TextStyle(fontSize: 10, color: Colors.white)),
                 ],
               ),
             ),
@@ -108,7 +108,7 @@ class HistoryItemCard extends StatelessWidget {
                     },
                   ),
                 ),
-                child: Text('Voir details', style: TextStyle(color: Colors.white)),
+                child: Text('Voir details', style: TextStyle(color: Colors.white, fontSize: 11)),
               ),
             ],
           ),
