@@ -121,11 +121,11 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                             expiryDate: expiryDate,
                             inputConfiguration: const InputConfiguration(
                               cardNumberDecoration: InputDecoration(
-                                labelText: 'Number',
+                                labelText: 'Numéro',
                                 hintText: 'XXXX XXXX XXXX XXXX',
                               ),
                               expiryDateDecoration: InputDecoration(
-                                labelText: 'Expired Date',
+                                labelText: 'Date d\'expiration',
                                 hintText: 'XX/XX',
                               ),
                               cvvCodeDecoration: InputDecoration(
@@ -133,7 +133,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                                 hintText: 'XXX',
                               ),
                               cardHolderDecoration: InputDecoration(
-                                labelText: 'Card Holder',
+                                labelText: 'Titulaire de la carte',
                               ),
                             ),
                             onCreditCardModelChange: onCreditCardModelChange,
@@ -144,7 +144,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                const Text('Cart par default'),
+                                const Text('Carte par défaut'),
                                 const Spacer(),
                                 Switch(
                                   value: isDefault,
@@ -184,7 +184,7 @@ class _AddCarteBancaireState extends State<AddCarteBancaire> {
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               alignment: Alignment.center,
                               child: const Text(
-                                'Validate',
+                                'Valider',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'halter',
