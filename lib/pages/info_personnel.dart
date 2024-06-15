@@ -1,7 +1,5 @@
 import 'package:example_app/services/UserService.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InfoPersonnel extends StatefulWidget {
@@ -16,9 +14,12 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
   late TextEditingController _prenomTextEditingController;
   late TextEditingController _telTextEditingController;
   late TextEditingController _emailTextEditingController;
-  late TextEditingController _passwordTextEditingController;
+  late TextEditingController _oldPasswordTextEditingController;
+  late TextEditingController _newPasswordTextEditingController;
   late TabController _tabController;
   late String userId;
+  bool _isOldPasswordVisible = false;
+  bool _isNewPasswordVisible = false;
   UserService userService = UserService();
 
   @override
@@ -28,7 +29,8 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
     _prenomTextEditingController = TextEditingController();
     _telTextEditingController = TextEditingController();
     _emailTextEditingController = TextEditingController();
-    _passwordTextEditingController = TextEditingController();
+    _oldPasswordTextEditingController = TextEditingController();
+    _newPasswordTextEditingController = TextEditingController();
     _tabController = TabController(length: 2, vsync: this);
     _loadUserData();
   }
@@ -44,33 +46,37 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
       if (_telTextEditingController.text.isNotEmpty) {
         _telTextEditingController.text = '0' + _telTextEditingController.text;
       }
-
     });
   }
+
   Future<void> updateUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('user_id');
     if (userId != null) {
       try {
         await userService.updateUser(
-          // id: userId,
           nom: _nomTextEditingController.text,
           prenom: _prenomTextEditingController.text,
           telephone: _telTextEditingController.text,
         );
-        // Update successful, you may navigate to another screen or show a success message
       } catch (error) {
-        // Handle error
         print('Error updating user data: $error');
-        // Show an error message to the user or retry the update
       }
     } else {
-      // Handle scenario where user ID is not available
       print('User ID not found');
-      // Show a message to the user or handle the scenario accordingly
     }
   }
 
+  Future<void> updateUserPwd() async {
+    try {
+      await userService.updatePassword(
+        oldPassword: _oldPasswordTextEditingController.text,
+        newPassword: _newPasswordTextEditingController.text,
+      );
+    } catch (error) {
+      print('Error updating password: $error');
+    }
+  }
 
   @override
   void dispose() {
@@ -78,7 +84,8 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
     _prenomTextEditingController.dispose();
     _telTextEditingController.dispose();
     _emailTextEditingController.dispose();
-    _passwordTextEditingController.dispose();
+    _oldPasswordTextEditingController.dispose();
+    _newPasswordTextEditingController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -112,7 +119,6 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
   }
 
   Widget _buildPersonalInfoTab() {
-
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -207,12 +213,10 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
                 ),
               ),
             ),
-
             const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 updateUserData();
-                // Perform update information logic here
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
@@ -238,7 +242,8 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text( textAlign: TextAlign.center,
+            const Text(
+              textAlign: TextAlign.center,
               "Changez votre mot de passe",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -246,18 +251,18 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
               ),
             ),
             const SizedBox(height: 20),
+            // Old password field with visibility toggle
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
-                controller: _passwordTextEditingController,
-                obscureText: true,
+                controller: _oldPasswordTextEditingController,
+                obscureText: !_isOldPasswordVisible,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   filled: true,
                   fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                  labelText: 'Enter votre password',
-                  hintText: 'password',
+                  labelText: 'Ancien mot de passe',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
@@ -265,10 +270,58 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
                   prefixIcon: const Padding(
                     padding: EdgeInsets.all(8),
                     child: Icon(
-                      Icons.lock,
+                      Icons.lock_outline,
                       color: Color.fromRGBO(5, 12, 79, 1.0),
                       size: 25,
                     ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isOldPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isOldPasswordVisible = !_isOldPasswordVisible;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            // New password field with visibility toggle
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: TextField(
+                controller: _newPasswordTextEditingController,
+                obscureText: !_isNewPasswordVisible,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  filled: true,
+                  fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
+                  labelText: 'Nouveau mot de passe',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      Icons.vpn_key,
+                      color: Color.fromRGBO(5, 12, 79, 1.0),
+                      size: 25,
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isNewPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isNewPasswordVisible = !_isNewPasswordVisible;
+                      });
+                    },
                   ),
                 ),
               ),
@@ -276,22 +329,18 @@ class _InfoPersonnelState extends State<InfoPersonnel> with SingleTickerProvider
             const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
-                // Perform change password logic here
+                updateUserPwd();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
+                backgroundColor: const Color.fromRGBO(5, 12, 79, 1.0),
                 padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: const BorderSide(
-                    color: Color.fromRGBO(5, 12, 79, 1.0),
-                    width: 2.0,
-                  ),
                 ),
               ),
               child: const Text(
-                'Changer mot de passe',
-                style: TextStyle(color: Color.fromRGBO(5, 12, 79, 1.0)),
+                'Enregistrer',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],

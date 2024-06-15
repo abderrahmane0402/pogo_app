@@ -201,36 +201,43 @@ class CarteService {
   Future<Map<String, dynamic>?> getUserCarte(String userId, String carteId) async {
     // Define your API endpoint URL
      String apiUrl = getUserCarte_;
+     String? authToken = await storage.read(key: 'auth_token');
 
-    // Create the request body
-    final Map<String, dynamic> requestBody = {
-      'id_user': userId,
-      'id_carte': carteId,
-    };
 
-    try {
-      final http.Response response = await http.post(
-        Uri.parse(apiUrl),
-        body: jsonEncode(requestBody),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
+     final Map<String, dynamic> requestBody = {
+       'id_user': userId,
+       'id_carte': carteId,
+     };
 
-      if (response.statusCode == 200) {
-        // If the response is successful, decode the JSON and return it
-        return jsonDecode(response.body);
-      } else {
-        // If the response status code is not 200, throw an exception with the error message
-        throw Exception('Failed to get user carte: ${response.body}');
-      }
-    } catch (e) {
-      // If an exception occurs during the HTTP request,
-      // return null to indicate failure
-      print('Failed to get user carte: $e');
-      return null;
-    }
+     try {
+       final http.Response response = await http.post(
+         Uri.parse(apiUrl),
+         body: jsonEncode(requestBody),
+         headers: <String, String>{
+           'Content-Type': 'application/json; charset=UTF-8',
+           'Authorization': 'Bearer $authToken',
+         },
+       );
+
+       if (response.statusCode == 200) {
+         // If the response is successful, decode the JSON and return it
+         final Map<String, dynamic> responseBody = jsonDecode(response.body);
+         // print(responseBody);
+         return responseBody;
+       } else {
+         // If the response status code is not 200, decode the JSON to extract error message
+         final dynamic errorJson = jsonDecode(response.body);
+         print(response.body);
+         throw Exception('Failed to get user carte: ${errorJson['message']}');
+       }
+     } catch (e) {
+       // If an exception occurs during the HTTP request,
+       // print the error and return null to indicate failure
+       print('Failed to get user carte: $e');
+       return null;
+     }
   }
-
-
 }
+
+
+

@@ -58,48 +58,44 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
   }
 
   void loginUser() async {
-    var regBody = {
-      "login": _telTextEditingController.text,
-      "password": _passwordTextEditingController.text,
-    };
+    String login = _telTextEditingController.text;
+    String password = _passwordTextEditingController.text;
 
     try {
-      final response = await authService.login(regBody["login"]!, regBody["password"]!);
+      final response = await authService.login(login, password);
 
       if (response != null) {
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-
         if (response.statusCode == 200) {
+          Navigator.pushReplacementNamed(context, '/Home');
+        } else if (response.statusCode == 400) {
           var responseBody = jsonDecode(response.body);
-          Map<String, dynamic>? user = responseBody['data']['user'];
+          String errorMessage = responseBody['message'];
+          print('Error message: $errorMessage');
 
-          if (user != null) {
-            Navigator.pushNamedAndRemoveUntil(context, '/Home', (route) => false);
-
-          return;
-          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMessage)),
+          );
+        } else {
+          // Handle unexpected status codes
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Unexpected status code: ${response.statusCode}')),
+          );
         }
+      } else {
+        // Handle null response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No response received. Please check your internet connection.')),
+        );
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Échec de la connexion: ${response?.body}')),
-      );
     } catch (e) {
-      print('Error: $e');
+      print('Error in loginUser: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Une erreur s\'est produite: $e')),
+        SnackBar(content: Text('An unexpected error occurred: $e')),
       );
     }
   }
 
-  void saveUserInfoToSharedPreferences(String userId, String userNom, String userPrenom, String userTele) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user_id', userId);
-    prefs.setString('user_nom', userNom);
-    prefs.setString('user_prenom', userPrenom);
-    prefs.setString('user_tele', userTele);
-  }
+
 
 
 
@@ -139,8 +135,8 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       filled: true,
                       fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                      labelText: 'Enter votre téléphone',
-                      hintText: '06xxxxxxxx',
+                      labelText: 'téléphone',
+                      // hintText: '06xxxxxxxx',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -176,8 +172,8 @@ class _LoginState extends State<Login> with WidgetsBindingObserver {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       filled: true,
                       fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                      labelText: 'Enter votre password',
-                      hintText: 'password',
+                      labelText: 'mot de passe',
+                      // hintText: 'password',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,

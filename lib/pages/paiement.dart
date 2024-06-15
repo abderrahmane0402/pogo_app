@@ -20,8 +20,16 @@ class Paiement extends StatefulWidget {
 class _PaiementState extends State<Paiement> {
   late final Map<String, dynamic> qrData;
   late final String amount;
-  final TextEditingController _payTextEditingController =
-      TextEditingController();
+  late final int amountInt ;
+
+  late final double feeRate = 0.06;
+  late final String fee = feeRate.toString();
+  late final double total;
+
+  late final user;
+  late final card;
+
+  final TextEditingController _payTextEditingController = TextEditingController();
   late Future<Map<String, dynamic>?> _userDataFuture;
   CarteService carteService = CarteService();
 
@@ -30,19 +38,43 @@ class _PaiementState extends State<Paiement> {
     super.initState();
     qrData = jsonDecode(widget.qrData);
     amount = widget.amount;
-    getUserCard(qrData);
+    _userDataFuture = getUserCard(qrData);
+    totalAmount();
   }
 
-  void getUserCard(Map<String, dynamic> qrData) async {
+  double totalAmount(){
+    amountInt = int.parse(amount);
+    total = amountInt + (amountInt * feeRate);
+    return total;
+  }
+
+
+  Future<Map<String, dynamic>?> getUserCard(Map<String, dynamic> qrData) async {
     try {
-      String userId = qrData['user_id'];
-      String cardId = qrData['card_id'];
+      // Ensure qrData contains required keys
+      if (!qrData.containsKey('user_id') || !qrData.containsKey('card_id')) {
+        print('Invalid QR data: missing user_id or card_id');
+        return null;
+      }
+
+      // Retrieve userId and cardId from qrData
+      final String userId = qrData['user_id'];
+      final String cardId = qrData['card_id'];
 
       // Call your API function to get user card
-      _userDataFuture = carteService.getUserCarte(userId, cardId);
+       final response = await carteService.getUserCarte(userId, cardId);
+
+      if (response != null) {
+        user = response['user'];
+        card = response['card'];
+      } else {
+        print('Failed to retrieve user card: response is null');
+        return null;
+      }
     } catch (error) {
       // Handle error, e.g., display error message
-      print('Erreur lors de la récupération de la carte utilisateur: $error');
+      print('Error while retrieving user card: $error');
+      return null;
     }
   }
 
@@ -64,13 +96,16 @@ class _PaiementState extends State<Paiement> {
             FutureBuilder<Map<String, dynamic>?>(
               future: _userDataFuture,
               builder: (context, snapshot) {
+                print(snapshot);
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Erreur: ${snapshot.error}'));
+                } else if ( snapshot.data == null) {
+                  return Center(child: Text(user['nom']));
                 } else {
-                  final userData = snapshot.data!['user'];
-                  final carteData = snapshot.data!['carte'];
+                  final userData =user;
+                  final carteData = snapshot.data?['carte'];
                   final String senderName = "zakia ouajih";
                   final String receiverName = "abderrahmane sabkari";
 
@@ -106,7 +141,7 @@ class _PaiementState extends State<Paiement> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white
+                                    color: Colors.white,
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -123,7 +158,7 @@ class _PaiementState extends State<Paiement> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                      color: Colors.white
+                                    color: Colors.white,
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -147,14 +182,14 @@ class _PaiementState extends State<Paiement> {
                                 'Montant',
                                 style: TextStyle(
                                   fontSize: 16,
-                                    color: Colors.white
+                                  color: Colors.white,
                                 ),
                               ),
                               Text(
                                 '$amount DH',
                                 style: TextStyle(
                                   fontSize: 16,
-                                    color: Colors.white
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -167,14 +202,14 @@ class _PaiementState extends State<Paiement> {
                                 'Frais',
                                 style: TextStyle(
                                   fontSize: 16,
-                                    color: Colors.white
+                                  color: Colors.white,
                                 ),
                               ),
                               Text(
-                                '6 DH',
+                                '$fee %',
                                 style: TextStyle(
                                   fontSize: 16,
-                                    color: Colors.white
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -188,15 +223,15 @@ class _PaiementState extends State<Paiement> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                    color: Colors.white
+                                  color: Colors.white,
                                 ),
                               ),
                               Text(
-                                '126 DH',
+                                '$total DH',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                    color: Colors.white
+                                  color: Colors.white,
                                 ),
                               ),
                             ],

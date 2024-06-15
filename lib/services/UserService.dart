@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:example_app/config/url.dart';
+import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -44,6 +45,35 @@ class UserService {
       }
     } catch (error) {
       print('Error updating user data: $error');
+    }
+  }
+
+
+  Future<void> updatePassword( {required String oldPassword, required String newPassword,}) async {
+    final url = Uri.parse(updatePassword_); // Replace with your API URL
+    String? token = await storage.read(key: 'auth_token');
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token', // Add the authorization token
+        },
+        body: jsonEncode({
+          'oldPassword': oldPassword,
+          'newPassword': newPassword,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        print(responseBody['message']); // Handle success response
+      } else {
+        final responseBody = jsonDecode(response.body);
+        print(responseBody['message']); // Handle error response
+      }
+    } catch (error) {
+      print('Error: $error'); // Handle any other errors
     }
   }
 

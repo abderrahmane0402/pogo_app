@@ -35,6 +35,9 @@ class AuthService {
   }
 
 
+
+
+
   Future<http.Response?> login(String tel, String password) async {
     try {
       var regBody = {
@@ -43,10 +46,10 @@ class AuthService {
       };
       final response = await http.post(
         Uri.parse(login_url),
-        // Ensure 'login' is the correct URL string from config
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(regBody),
       );
+
       if (response.statusCode == 200) {
         var responseBody = jsonDecode(response.body);
 
@@ -61,15 +64,22 @@ class AuthService {
         await prefs.setString('user_telephone', user['telephone'].toString());
         await prefs.setString('user_password', user['password']);
         await prefs.setString('user_id', user['_id']);
+
+        return response;
+      } else if (response.statusCode == 400) {
+        var responseBody = jsonDecode(response.body);
+        print('Error: ${responseBody['message']}');
+        return response;
+      } else {
+        print('Unexpected status code: ${response.statusCode}');
         return response;
       }
     } catch (e) {
       print('Error: $e');
     }
     return null;
-
-
   }
+
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
