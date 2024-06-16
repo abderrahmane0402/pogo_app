@@ -34,14 +34,14 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  // void logout_user() async {
-  //   try {
-  //     final response = await authService.logout();
-  //
-  //   }catch{
-  //     print('error');
-  //   }
-  // }
+  void logout_user() async {
+    try {
+      final response = await authService.logout();
+
+    }catch(e){
+      print('error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
