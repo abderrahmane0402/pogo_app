@@ -258,23 +258,6 @@ class _PaiementState extends State<Paiement> {
                                 ),
                               ],
                             ),
-                            Spacer(),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Logique de confirmation de paiement
-                                print('Paiement confirmé');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromRGBO(5, 12, 75, 1.0), // couleur de fond
-                                foregroundColor: Colors.white, // couleur du texte
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                textStyle: TextStyle(fontSize: 18),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                              child: Text('Confirmer'),
-                            ),
                           ],
                         ),
                       ),
@@ -285,7 +268,43 @@ class _PaiementState extends State<Paiement> {
                 }
               },
             ),
+            Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                // Logique de confirmation de paiement
+                print('Paiement confirmé');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromRGBO(5, 12, 75, 1.0), // couleur de fond
+                foregroundColor: Colors.white, // couleur du texte
+                padding: EdgeInsets.symmetric(vertical: 16),
+                textStyle: TextStyle(fontSize: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: Text('Confirmer'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Logique de confirmation de paiement
+                Navigator.pushReplacementNamed(context, '/Home');
+                // print('Paiement confirmé');
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Color.fromRGBO(5, 12, 75, 1.0),
+                backgroundColor: Color.fromRGBO(223, 245, 241, 1.0), // foreground color (text color)
+                padding: EdgeInsets.symmetric(vertical: 16),
+                textStyle: TextStyle(fontSize: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(color: Color.fromRGBO(5, 12, 75, 1.0), width: 2), // border color and width
+                ),
 
+              ),
+              child: Text('Annuler'),
+            ),
           ],
         ),
       ),

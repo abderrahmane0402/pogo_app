@@ -52,24 +52,33 @@ class PaymentInputPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30.0),
-            ElevatedButton(
-              onPressed: () {
-                String amount = amountController.text;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Paiement(
-                      qrData: qrData,
-                      amount: amount,
-                    ),
-                  ),
-                );
-              },
-              child: Text('passer au paiement'),
+        ElevatedButton(
+          onPressed: () {
+            String amount = amountController.text;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Paiement(
+                  qrData: qrData,
+                  amount: amount,
+                ),
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+          backgroundColor: Color.fromRGBO(5, 12, 75, 1.0), // foreground color (text color)
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            textStyle: TextStyle(fontSize: 18),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+              side: BorderSide(color: Color.fromRGBO(5, 12, 75, 1.0), width: 2), // border color and width
             ),
-          ],
+          ),
+          child: Text('passer au paiement'),
         ),
-      ),
+
+      ]),)
     );
   }
 }
