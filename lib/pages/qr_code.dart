@@ -185,7 +185,7 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
                         8)), // Button border radius
               ),
               child: const Text(
-                  'Regenerate QR Code', style: TextStyle(color: Colors.white)),
+                  'Regenerer QR Code', style: TextStyle(color: Colors.white)),
               // Text for the button
             ),
           ],

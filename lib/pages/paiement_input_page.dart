@@ -34,7 +34,7 @@ class PaymentInputPage extends StatelessWidget {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 filled: true,
                 fillColor: const Color.fromRGBO(180, 233, 230, 1.0),
-                labelText: 'Enter amount to pay',
+                labelText: 'Enter le montant',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide.none,
@@ -65,7 +65,7 @@ class PaymentInputPage extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Proceed to Payment'),
+              child: Text('passer au paiement'),
             ),
           ],
         ),
