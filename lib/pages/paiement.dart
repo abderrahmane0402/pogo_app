@@ -20,16 +20,14 @@ class Paiement extends StatefulWidget {
 class _PaiementState extends State<Paiement> {
   late final Map<String, dynamic> qrData;
   late final String amount;
-  late final int amountInt ;
+  late final int amountInt;
 
   late final double feeRate = 0.06;
   late final String fee = feeRate.toString();
   late final double total;
 
-  late final user;
-  late final card;
-
-  final TextEditingController _payTextEditingController = TextEditingController();
+  final TextEditingController _payTextEditingController =
+      TextEditingController();
   late Future<Map<String, dynamic>?> _userDataFuture;
   CarteService carteService = CarteService();
 
@@ -42,12 +40,11 @@ class _PaiementState extends State<Paiement> {
     totalAmount();
   }
 
-  double totalAmount(){
+  double totalAmount() {
     amountInt = int.parse(amount);
     total = amountInt + (amountInt * feeRate);
     return total;
   }
-
 
   Future<Map<String, dynamic>?> getUserCard(Map<String, dynamic> qrData) async {
     try {
@@ -62,11 +59,10 @@ class _PaiementState extends State<Paiement> {
       final String cardId = qrData['card_id'];
 
       // Call your API function to get user card
-       final response = await carteService.getUserCarte(userId, cardId);
+      final response = await carteService.getUserCarte(userId, cardId);
 
       if (response != null) {
-        user = response['user'];
-        card = response['card'];
+        return response;
       } else {
         print('Failed to retrieve user card: response is null');
         return null;
@@ -101,11 +97,10 @@ class _PaiementState extends State<Paiement> {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Erreur: ${snapshot.error}'));
-                } else if ( snapshot.data == null) {
-                  return Center(child: Text(user['nom']));
+                } else if (!snapshot.hasData) {
+                  return Center(
+                      child: Text("aucun donne trouver sur l'utilisateur"));
                 } else {
-                  final userData =user;
-                  final carteData = snapshot.data?['carte'];
                   final String senderName = "zakia ouajih";
                   final String receiverName = "abderrahmane sabkari";
 
@@ -250,7 +245,8 @@ class _PaiementState extends State<Paiement> {
                 print('Paiement confirmé');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromRGBO(5, 12, 75, 1.0), // couleur de fond
+                backgroundColor:
+                    Color.fromRGBO(5, 12, 75, 1.0), // couleur de fond
                 foregroundColor: Colors.white, // couleur du texte
                 padding: EdgeInsets.symmetric(vertical: 16),
                 textStyle: TextStyle(fontSize: 18),
