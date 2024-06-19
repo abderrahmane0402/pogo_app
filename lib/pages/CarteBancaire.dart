@@ -289,6 +289,12 @@ class _CarteBancaireState extends State<CarteBancaire> {
                   }));
         },
         icon: const Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(5, 12, 75, 1.0), // Background color of the button
+        foregroundColor: Colors.white, // Text color
+        elevation: 4, // Elevation of the button
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0), // Rounded corners for the button
+        ),
         label: const Text("Ajouter une carte"),
       ),
     );
