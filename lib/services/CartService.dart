@@ -52,6 +52,7 @@ class CarteService {
       print('An error occurred: $e');
     }
   }
+  
   Future<Map<String, dynamic>?> getDefaultCard(String authToken) async {
     final String url = default_cart;
     try {

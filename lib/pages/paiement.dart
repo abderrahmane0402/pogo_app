@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:example_app/services/PaimentService.dart';
 import 'package:flutter/material.dart';
 import 'package:example_app/services/CartService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +22,6 @@ class Paiement extends StatefulWidget {
 class _PaiementState extends State<Paiement> {
   late String qrData;
   late String amount;
-  late int amountInt;
   late double feeRate = 0.06;
   late double total;
 
@@ -31,9 +31,12 @@ class _PaiementState extends State<Paiement> {
   late String senderName;
   late String senderOtherName;
 
-  final TextEditingController _payTextEditingController = TextEditingController();
+  final TextEditingController _payTextEditingController =
+      TextEditingController();
   late Future<Map<String, dynamic>?> _userDataFuture;
   CarteService carteService = CarteService();
+  PaymentService paymentService = PaymentService();
+  late Map<String, dynamic> qrDataMap;
 
   @override
   void initState() {
@@ -41,13 +44,15 @@ class _PaiementState extends State<Paiement> {
     qrData = widget.qrData;
     amount = widget.amount;
     _userDataFuture = getUserCard(qrData);
-    totalAmount();
+    totalAmount(double.parse(amount));
   }
 
-  double totalAmount() {
-    amountInt = int.parse(amount);
-    total = amountInt + (amountInt * feeRate);
-    return total;
+  void totalAmount(double montant) {
+    total = montant + (montant * feeRate);
+  }
+
+  double calculerPourcentage(double montant) {
+    return montant * 0.06;
   }
 
   Future<Map<String, dynamic>?> getUserCard(String qrData) async {
@@ -56,20 +61,13 @@ class _PaiementState extends State<Paiement> {
       senderName = prefs.getString('user_nom') ?? '';
       senderOtherName = prefs.getString('user_prenom') ?? '';
 
-      Map<String, dynamic> qrDataMap;
-
       // Attempt to decode the QR data as JSON
       try {
         qrDataMap = json.decode(qrData);
 
-        // Check if the decoded data is a valid map
-        if (!(qrDataMap is Map<String, dynamic>)) {
-          print('Invalid QR data: not a valid map');
-          return null;
-        }
-
         // Check for required keys
-        if (!qrDataMap.containsKey('user_id') || !qrDataMap.containsKey('card_id')) {
+        if (!qrDataMap.containsKey('user_id') ||
+            !qrDataMap.containsKey('card_id')) {
           print('Invalid QR data: missing user_id or card_id');
           return null;
         }
@@ -82,14 +80,10 @@ class _PaiementState extends State<Paiement> {
         final response = await carteService.getUserCarte(userId, cardId);
 
         if (response != null) {
-          user = response['user'];
-          card = response['card'];
+          return response;
         } else {
-          print('Failed to retrieve user card: response is null');
           return null;
-        }
-
-        return qrDataMap; // Return valid QR data map
+        } // Return valid QR data map
       } catch (e) {
         print('Invalid QR data: cannot decode JSON');
         return null;
@@ -117,162 +111,168 @@ class _PaiementState extends State<Paiement> {
           children: [
             FutureBuilder<Map<String, dynamic>?>(
               future: _userDataFuture,
-              builder: (context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+              builder:
+                  (context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Erreur: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data == null) {
+                } else if (!snapshot.hasData) {
                   return Center(child: Text('QR code invalid'));
                 } else {
-                  final Map<String, dynamic> qrDataMap = snapshot.data!;
+                  final String receiverName = snapshot.data?["user"]["nom"];
+                  final String receiverOtherName =
+                      snapshot.data?["user"]["prenom"];
 
-                  if (qrDataMap.containsKey('user_id') && qrDataMap.containsKey('card_id')) {
-                    final String receiverName = user['nom'] ?? '';
-                    final String receiverOtherName = user['prenom'] ?? '';
-
-                    return Card(
-                      color: Color.fromRGBO(30, 157, 151, 1.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Veuillez confirmer la transaction suivante :',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
+                  return Card(
+                    color: Color.fromRGBO(30, 157, 151, 1.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Veuillez confirmer la transaction suivante :',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
                             ),
-                            SizedBox(height: 16),
-                            Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Transfert de:',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    '$senderName $senderOtherName',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 16),
-                                  Text(
-                                    'Transfert à:',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    '$receiverName $receiverOtherName',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          SizedBox(height: 16),
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            SizedBox(height: 16),
-                            Divider(),
-                            SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Montant',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '$amount DH',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Frais',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '${(feeRate * 100).toStringAsFixed(2)} %',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Montant total',
+                                  'Transfert de:',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
                                 ),
+                                SizedBox(height: 8),
                                 Text(
-                                  '${total.toStringAsFixed(2)} DH',
+                                  '$senderName $senderOtherName',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  'Transfert à:',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
                                 ),
+                                SizedBox(height: 8),
+                                Text(
+                                  '$receiverName $receiverOtherName',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 16),
+                          Divider(),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Montant',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                '$amount DH',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Frais',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                '${calculerPourcentage(double.parse(amount)).toStringAsFixed(2)} DH',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Montant total',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                '$total DH',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    );
-                  } else {
-                    return Center(child: Text('Invalid QR code data'));
-                  }
+                    ),
+                  );
                 }
               },
             ),
             Spacer(),
             ElevatedButton(
-              onPressed: () {
-                // Logique de confirmation de paiement
-                print('Paiement confirmé');
+              onPressed: () async {
+                final res = await paymentService.makePayment(
+                    amount: total, recepteurId: qrDataMap['user_id']);
+                print(res);
+                if (res == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("un problem est servenue"),
+                    backgroundColor: Colors.red,
+                  ));
+                  // Navigator.pushReplacementNamed(context, '/Home');
+                } else {
+                  Navigator.pushReplacementNamed(context, '/Home');
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:
@@ -295,14 +295,16 @@ class _PaiementState extends State<Paiement> {
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Color.fromRGBO(5, 12, 75, 1.0),
-                backgroundColor: Color.fromRGBO(223, 245, 241, 1.0), // foreground color (text color)
+                backgroundColor: Color.fromRGBO(
+                    223, 245, 241, 1.0), // foreground color (text color)
                 padding: EdgeInsets.symmetric(vertical: 16),
                 textStyle: TextStyle(fontSize: 18),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: BorderSide(color: Color.fromRGBO(5, 12, 75, 1.0), width: 2), // border color and width
+                  side: BorderSide(
+                      color: Color.fromRGBO(5, 12, 75, 1.0),
+                      width: 2), // border color and width
                 ),
-
               ),
               child: Text('Annuler'),
             ),
