@@ -228,95 +228,89 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                const SizedBox(width: 40),
+                const SizedBox(width: 70),
+
+
                 Padding(
                   padding: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 10),
                   child: SizedBox(
-                    height: 60,
+                    height: 75,
+                    width: double.infinity,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color:  Colors.transparent,
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          color: const Color.fromRGBO(19, 12, 79, 1.0), // Specify border color here
+                          width: 4, // Specify border width here
+                        ),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const QRScanner()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          shadowColor: Colors.transparent,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.payments_outlined,
+                                size: 35, color: Color.fromRGBO(19, 12, 79, 1.0)),
+                            SizedBox(width: 10),
+                            Text('Payer',
+                                style: TextStyle(
+                                    fontSize: 13, color: Color.fromRGBO(19, 12, 79, 1.0))),
+                          ],
+                        ),
+                      ),
+                      ),
+                    ),
+                  ),
+                const SizedBox(width: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 10),
+                  child: SizedBox(
+                    height: 75,
                     width: double.infinity,
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(19, 12, 79, 1.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const QRScanner()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                              shadowColor: Colors.transparent,
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.payments_outlined,
-                                    size: 25, color: Colors.white),
-                                SizedBox(height: 5),
-                                Text('Paiement',
-                                    style: TextStyle(
-                                        fontSize: 9, color: Colors.white)),
-                              ],
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const QR_Code()),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                              shadowColor: Colors.transparent,
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.qr_code_2,
-                                    size: 25, color: Colors.white),
-                                SizedBox(height: 5),
-                                Text('QR code',
-                                    style: TextStyle(
-                                        fontSize: 9, color: Colors.white)),
-                              ],
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/history');
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                              shadowColor: Colors.transparent,
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.history,
-                                    size: 25, color: Colors.white),
-                                SizedBox(height: 5),
-                                Text('Historique',
-                                    style: TextStyle(
-                                        fontSize: 9, color: Colors.white)),
-                              ],
-                            ),
-                          ),
-                        ],
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const QR_Code()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          shadowColor: Colors.transparent,
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.qr_code_2,
+                                size: 35, color: Colors.white),
+                            SizedBox(height: 5),
+                            Text('Recevoir',
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.white)),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -325,3 +319,27 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
+
+// ElevatedButton(
+//   onPressed: () {
+//     Navigator.pushNamed(context, '/history');
+//   },
+//   style: ElevatedButton.styleFrom(
+//     backgroundColor: Colors.transparent,
+//     elevation: 0,
+//     shadowColor: Colors.transparent,
+//   ),
+//   child: const Column(
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     children: [
+//       Icon(Icons.history,
+//           size: 25, color: Colors.white),
+//       SizedBox(height: 5),
+//       Text('Historique',
+//           style: TextStyle(
+//               fontSize: 9, color: Colors.white)),
+//     ],
+//   ),
+// ),

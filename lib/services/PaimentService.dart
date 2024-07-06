@@ -29,6 +29,7 @@ class PaymentService {
         headers: headers,
         body: body,
       );
+      print(response.body);
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
